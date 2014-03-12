@@ -35,13 +35,17 @@ import android.os.UserManager;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
+import android.preference.SwitchPreference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceScreen;
 import android.provider.Settings;
 import android.security.KeyStore;
 import android.telephony.TelephonyManager;
+import android.util.AttributeSet;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import com.android.internal.widget.LockPatternUtils;
 
@@ -84,6 +88,12 @@ public class SecuritySettings extends RestrictedSettingsFragment
     private static final String KEY_CREDENTIALS_MANAGER = "credentials_management";
     private static final String KEY_NOTIFICATION_ACCESS = "manage_notification_access";
     private static final String PACKAGE_MIME_TYPE = "application/vnd.android.package-archive";
+    
+    private static final String KEY_USER_EXPERIENCE_SWITCH = "user_experience_switch";
+    private SwitchPreference mUserExperienceSwitch;
+    private final String STORE_USER_EXPERIENCE_KEY = "com_android_settings_user_experience_switch";
+    private final int USER_EXPERIENCE_CLOSE = 0;
+    private final int USER_EXPERIENCE_OPEN = 1;
 
     private PackageManager mPM;
     private DevicePolicyManager mDPM;
@@ -339,7 +349,29 @@ public class SecuritySettings extends RestrictedSettingsFragment
             protectByRestrictions(mResetCredentials);
             protectByRestrictions(root.findPreference(KEY_CREDENTIALS_INSTALL));
         }
+        
+        mUserExperienceSwitch = (SwitchPreference) root.findPreference(KEY_USER_EXPERIENCE_SWITCH);
+        mUserExperienceSwitch.setOnPreferenceChangeListener(this);
         return root;
+    }
+    
+    private boolean isUserExperienceSwitchOpen(){
+    	return Settings.System.getInt(
+                getContentResolver(), STORE_USER_EXPERIENCE_KEY, USER_EXPERIENCE_OPEN) == USER_EXPERIENCE_OPEN;
+    }
+    
+    private void updateUserExperienceSwitch() {
+    	mUserExperienceSwitch.setChecked(isUserExperienceSwitchOpen());
+    }
+    
+    private void onUserExperienceSwitch(boolean checked) {
+    	int value = USER_EXPERIENCE_CLOSE;
+    	if(checked){
+    		value = USER_EXPERIENCE_OPEN;
+    	}
+    	Settings.System.putInt(
+                getContentResolver(), STORE_USER_EXPERIENCE_KEY, value);
+    	updateUserExperienceSwitch();
     }
 
     private int getNumEnabledNotificationListeners() {
@@ -507,6 +539,7 @@ public class SecuritySettings extends RestrictedSettingsFragment
         if (mEnableKeyguardWidgets != null) {
             mEnableKeyguardWidgets.setChecked(lockPatternUtils.getWidgetsEnabled());
         }
+        updateUserExperienceSwitch();
     }
 
     @Override
@@ -617,6 +650,8 @@ public class SecuritySettings extends RestrictedSettingsFragment
                 Log.e("SecuritySettings", "could not persist lockAfter timeout setting", e);
             }
             updateLockAfterPreferenceSummary();
+        }else if (preference.getKey().equals(KEY_USER_EXPERIENCE_SWITCH)) {
+            onUserExperienceSwitch((Boolean) value);
         }
         return true;
     }
@@ -630,5 +665,27 @@ public class SecuritySettings extends RestrictedSettingsFragment
         Intent intent = new Intent();
         intent.setClassName("com.android.facelock", "com.android.facelock.AddToSetup");
         startActivity(intent);
+    }
+}
+
+class WrappingSwitchPreference extends SwitchPreference {
+
+    public WrappingSwitchPreference(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+    }
+
+    public WrappingSwitchPreference(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    @Override
+    protected void onBindView(View view) {
+        super.onBindView(view);
+
+        TextView title = (TextView) view.findViewById(android.R.id.title);
+        if (title != null) {
+            title.setSingleLine(false);
+            title.setMaxLines(3);
+        }
     }
 }

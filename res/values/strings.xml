@@ -436,6 +436,9 @@
     <!-- HTTP proxy settings. Warning message about limited application support [CHAR LIMIT=100]-->
     <string name="proxy_warning_limited_support">The HTTP proxy is used by the browser but may not be used by the other apps.</string>
 
+    <!-- HTTP proxy settings. Title for Proxy-Auto Config URL.  [CHAR LIMIT=NONE]-->
+    <string name="proxy_url">"PAC URL: "</string>
+
     <!-- Radio Info screen. Label for a status item.  Used for diagnostic info screens, precise translation isn't needed -->
     <string name="radio_info_signal_location_label">Location:</string>
     <!-- Radio Info screen. Label for a status item.  Used for diagnostic info screens, precise translation isn't needed -->
@@ -1223,36 +1226,21 @@
     <string name="bluetooth_dock_settings_remember">Remember settings</string>
 
     <!-- Wifi Display settings. The title of the screen. [CHAR LIMIT=40] -->
-    <string name="wifi_display_settings_title">Wireless display</string>
-    <!-- Wifi Display settings. Text displayed when Wifi display is off and device list is empty [CHAR LIMIT=80]-->
-    <string name="wifi_display_settings_empty_list_wifi_display_off">To see devices, turn wireless display on.</string>
-    <!-- Wifi Display settings. Text displayed when Wifi Display is off and device list is empty [CHAR LIMIT=80]-->
-    <string name="wifi_display_settings_empty_list_wifi_display_disabled">Wireless display is disabled because Wi\u2011Fi is off.</string>
-    <!-- Wifi Display settings. The title of the action button that initiates a search for nearby devices [CHAR LIMIT=20] -->
-    <string name="wifi_display_search_for_devices">Search for displays</string>
-    <!-- Wifi Display settings. The title of the action button while a search for nearby devices is in progress [CHAR LIMIT=20] -->
-    <string name="wifi_display_searching_for_devices">Searching\u2026</string>
+    <string name="wifi_display_settings_title">Cast screen</string>
+    <!-- Wifi Display settings. The title of a menu item to enable wireless display [CHAR LIMIT=40] -->
+    <string name="wifi_display_enable_menu_item">Enable wireless display</string>
     <!-- Wifi Display settings. Text that appears when scanning for devices is finished and no nearby device was found [CHAR LIMIT=40]-->
-    <string name="wifi_display_no_devices_found">No nearby wireless displays were found.</string>
-    <!-- Wifi Display settings. The sub heading for devices which have already been paired with this device. [CHAR LIMIT=40] -->
-    <string name="wifi_display_paired_devices">Paired displays</string>
-    <!-- Wifi Display settings. The sub heading for available devices during and after scanning. [CHAR LIMIT=40] -->
-    <string name="wifi_display_available_devices">Available devices</string>
+    <string name="wifi_display_no_devices_found">No nearby devices were found.</string>
     <!-- Wifi Display settings. The status summary for connecting devices. [CHAR LIMIT=40] -->
     <string name="wifi_display_status_connecting">Connecting</string>
     <!-- Wifi Display settings. The status summary for connected devices. [CHAR LIMIT=40] -->
     <string name="wifi_display_status_connected">Connected</string>
-    <!-- Wifi Display settings. The status summary for available devices. [CHAR LIMIT=40] -->
-    <string name="wifi_display_status_available">Available</string>
     <!-- Wifi Display settings. The status summary for devices that's already in use. [CHAR LIMIT=40] -->
     <string name="wifi_display_status_in_use">In use</string>
+    <!-- Wifi Display settings. The status summary for devices that's not available. [CHAR LIMIT=40] -->
+    <string name="wifi_display_status_not_available">Unavailable</string>
     <!-- Wifi Display settings. Image description for device details button. This opens the screen to rename, unpair, etc. a single device. -->
     <string name="wifi_display_details">Display settings</string>
-
-    <!-- Wifi Display settings. Disconnect dialog.  The title of the dialog. [CHAR LIMIT=40] -->
-    <string name="wifi_display_disconnect_title">Disconnect?</string>
-    <!-- Wifi Display settings. Disconnect dialog.  Message for disconnecting from the display. [CHAR LIMIT=NONE] -->
-    <string name="wifi_display_disconnect_text">This will end your connection with:&lt;br>&lt;b><xliff:g id="device_name">%1$s</xliff:g>&lt;/b></string>
 
     <!-- Wifi Display settings. Options dialog.  The title of the dialog. [CHAR LIMIT=40] -->
     <string name="wifi_display_options_title">Wireless display options</string>
@@ -1262,13 +1250,6 @@
     <string name="wifi_display_options_done">Done</string>
     <!-- Wifi Display settings. Options dialog.  The name label used when prompting the user to rename the display. [CHAR LIMIT=20] -->
     <string name="wifi_display_options_name">Name</string>
-
-    <!-- Wifi Display settings. Summary shown in Display settings. Text used for 'On' state. [CHAR LIMIT=40] -->
-    <string name="wifi_display_summary_on">On</string>
-    <!-- Wifi Display settings. Summary shown in Display settings. Text used for 'Off' state. [CHAR LIMIT=40] -->
-    <string name="wifi_display_summary_off">Off</string>
-    <!-- Wifi Display settings. Summary shown in Display settings. Text used for 'Disabled' state. [CHAR LIMIT=40] -->
-    <string name="wifi_display_summary_disabled">Disabled</string>
 
     <!-- Wifi Display settings. The sub heading for wireless display certification options. [CHAR LIMIT=40] -->
     <string name="wifi_display_certification_heading" translatable="false">Certification</string>
@@ -1786,6 +1767,10 @@
     <!-- Sound settings screen, setting check box label -->
     <string name="haptic_feedback_enable_title">Vibrate on touch</string>
     <!-- Sound settings screen, setting option name checkbox to enable/disable audio recording features that improve audio recording in noisy environments -->
+    <string name="audio_spdif_output_enable_title">SPDIF</string>
+    <!-- Sound settings screen, setting option name checkbox to enable/disable audio recording features that improve audio recording in noisy environments -->
+    <string name="audio_spdif_output_enable_summary">Audio output from the dock</string>
+    <string name="audio_spdif_output_category_title">OUTPUT</string>
     <string name="audio_record_proc_title">Noise cancellation</string>
     <!-- Volume description for media volume -->
     <string name="volume_media_description">Music, video, games, &amp; other media</string>
@@ -2163,6 +2148,10 @@
     <string name="usb_ptp_title">Camera (PTP)</string>
     <!-- Storage setting.  Label for installer CD [CHAR LIMIT=30]-->
     <string name="usb_ptp_summary">Lets you transfer photos using camera software, and transfer any files on computers that don\'t support MTP</string>
+    	<!-- Storage setting.  Title for Mass Storage [CHAR LIMIT=30]-->
+	<string name="usb_mass_title">Mass Storage</string>
+	<!-- Storage setting.  Label for Mass Storage [CHAR LIMIT=30]-->
+	<string name="usb_mass_summary">Use Mass Storage to share files</string>
     <!-- Storage setting.  Summary for PTP checkbox [CHAR LIMIT=NONE]-->
     <string name="usb_label_installer_cd">"Install file-transfer tools"</string>
 
@@ -3491,6 +3480,9 @@
     <!-- Template for the label of the state for a ongoing print job. [CHAR LIMIT=25] -->
     <string name="print_printing_state_title_template">Printing <xliff:g id="print_job_name" example="foo.jpg">%1$s</xliff:g></string>
 
+    <!-- Template for the label for a cancelling print job. [CHAR LIMIT=25] -->
+    <string name="print_cancelling_state_title_template" >Cancelling <xliff:g id="print_job_name" example="foo.jpg">%1$s</xliff:g></string>
+
     <!-- Template for the label of the state for a failed print job. [CHAR LIMIT=25] -->
     <string name="print_failed_state_title_template">Printer error <xliff:g id="print_job_name" example="foo.jpg">%1$s</xliff:g></string>
 
@@ -4687,7 +4679,7 @@
     <!-- Text of message to show to users whose administrator has installed a SSL CA Cert.  [CHAR LIMIT=NONE] -->
     <string name="ssl_ca_cert_info_message">This device is managed by:\n<xliff:g id="managing_domain">%s</xliff:g>\n\nYour administrator is capable of monitoring your network activity, including emails, apps, and secure websites.\n\nFor more information, contact your administrator.</string>
     <!-- Text of warning to show to users that have a SSL CA Cert installed.  [CHAR LIMIT=NONE] -->
-    <string name="ssl_ca_cert_warning_message">A third party is capable of monitoring your network\nactivity, including emails, apps, and secure websites.\n\nA trusted credential installed on your device is making this possible.</string>
+    <string name="ssl_ca_cert_warning_message">A third party is capable of monitoring your network activity, including emails, apps, and secure websites.\n\nA trusted credential installed on your device is making this possible.</string>
     <!-- Label on button that will take the user to the Trusted Credentials settings page.  [CHAR LIMIT=NONE]-->
     <string name="ssl_ca_cert_settings_button">Check trusted credentials</string>
 
@@ -4861,6 +4853,8 @@
     <string name="help_url_security" translatable="false"></string>
     <!-- Help URL, Tap & pay [DO NOT TRANSLATE] -->
     <string name="help_url_nfc_payment" translatable="false"></string>
+    <!-- Help URL, Remote display [DO NOT TRANSLATE] -->
+    <string name="help_url_remote_display" translatable="false"></string>
 
     <!-- User account title [CHAR LIMIT=30] -->
     <string name="user_account_title">Account for content</string>
@@ -4916,4 +4910,103 @@
 
     <!-- Text to display in regulatory info screen (from device overlay). -->
     <string name="regulatory_info_text"></string>
+    <string name="hdmi_screen_zoom">Screen Zoom</string>
+	<string name="hdmi_title">Turn on HDMI</string>
+	<string name="hdmi_resolution_title">HDMI Resolution</string>
+	<string name="hdmi_lcd_timeout">Screen Timeout</string>
+	<string name="hdmi_settings">Hdmi</string>
+	<string name="hdmi_settings_summary">configure hdmi setting for tv-output</string>
+
+	<!-- vga settings -->
+	<string name="vga_title">Turn on VGA</string>
+	<string name="vga_resolution_title">VGA Resolution</string>
+	<string name="vga_settings">VGA</string>
+	<string name="vga_settings_summary">configure VGA setting for vga-output</string>
+	<string name="vga_settings_resolution_summary">You can select a proper resolution for your device VGA-output</string>
+
+       <!--screenshot setting -->
+	 <string name="app_name">ScreenshotManager</string>
+	 <string name="screenshot_manager">ScreenshotSetting</string>
+     <string name="screenshot_delay_title">Select delay time to capture the screen </string>
+     <string name="screenshot_show">Show the screenshot button in the statusbar</string>
+     <string name="screenshot_version">Show the version of screenshot manager.</string>
+     <string name="screenshot_storage_title">Set the location of screenshot storage</string>
+	 <string name="later">s later capture</string>
+     <!-- Ethernet settings -->
+     <!-- Ethernet settings check box title on Main Settings screen -->
+     <string name="ethernet_quick_toggle_title">Use Ethernet</string>
+     <!-- Ethernet settings check box summary for turning on ethernet -->
+     <string name="ethernet_quick_toggle_summary">Enable Ethernet</string>
+     <!--Used as title on second screen after selecting Ethernet settings -->
+     <string name="ethernet_settings">Ethernet</string>
+     <!--Wireless controls screen, settings title for the item to take you to the ethernet settings screen -->
+     <string name="ethernet_settings_title">Ethernet</string>
+     <!--Wireless controls screen, settings summary for the item tot ake you to the ethernet settings screen -->
+     <string name="ethernet_settings_summary">Manager ethernet</string>
+     <!-- ethernet ip address  -->
+     <string name="ethernet_ip_addr">IP address</string>
+     <!-- ethernet netmask  -->
+     <string name="ethernet_netmask">netmask</string>
+     <!-- ethernet gateway  -->
+     <string name="ethernet_gateway">gateway</string>
+     <!-- ethernet dns1  -->
+     <string name="ethernet_dns1">dns1</string>
+     <!-- ethernet dns2 -->
+     <string name="ethernet_dns2">dns2</string>
+     <!-- ethernet mac -->
+     <string name="ethernet_mac">MAC address</string>
+ 
+     <string name="ethernet_connected">Connected</string>
+     <string name="ethernet_connecting">Connecting</string>
+     <string name="ethernet_unconnected">Unconnected</string>
+     <string name="ethernet_static_settings">Static IP Setttings</string>
+     <string name="ethernet_controls">Ethernet controls</string>
+     <string name="ethernet_linkage_status">Linkage status</string>
+     <string name="ethernet_enable_new_ip_settings">Enable new IP settings</string>
+     <string name="ethernet_ip_networks_status">IP network status</string>
+     <string name="ethernet">Ethernet</string>
+     <string name="ethernet_error_starting">Unable to start Ethernet</string>
+     <string name="ethernet_error_stopping">Unable to stop Ethernet</string>
+     <string name="ethernet_ip_settings_titlebar">IP settings</string>
+     <string name="ethernet_ip_settings_invalid_ip">Please type a valid IP address.</string>
+     <string name="ethernet_use_static_ip">Use static IP</string>
+     <string name="ethernet_static_ip_address">IP address</string>
+     <string name="ethernet_static_dns1">DNS 1</string>
+     <string name="ethernet_static_dns2">DNS 2</string>
+     <string name="ethernet_static_gateway">Gateway</string>
+     <string name="ethernet_static_netmask">Netmask</string>
+     <string name="ethernet_advanced_mac_address_title">MAC address</string>
+     <string name="ethernet_advanced_ip_address_title">IP address</string>
+        <string name="linkage_status_disconnected">Link detected: no. Ethernet is disconnected phisically!</string>
+        <string name="linkage_status_dev_fail">Failed to turn up ethernet device! Is it esistent?</string>
+        <string name="duplex_full">Full</string>
+        <string name="duplex_half">Half</string>
+        <string name="duplex_unknown">Unknown</string>
+        <string name="linkage_status_format">Link detected: yes. Speed:
+        <xliff:g id="number" example="27">%d</xliff:g>Mb/s. Duplex:
+        <xliff:g id="queue_text" example="Queue">%s</xliff:g>.</string>
+        <string name="ip_network_status_connecting">Configing ethernet interface.</string>
+        <string name="ip_network_status_connected">Config ethernet interface successfully.</string>
+        <string name="ip_network_status_failed">Fail to config ethernet interface!</string>
+        <string name="ip_network_status_unavailable">Not available.</string>
+        <string name="eth_ip_settings_please_complete_settings">Please give complete static IP settings!</string>
+        <string name="eth_ip_settings_eth_is_disabled">Ethernet is disabled.</string>
+        <string name="ethernet_static_ip_settings_title">Static IP Setttings</string>
+        <string name="category_ethernet">Static IP Setttings</string>
+        <string name="staticip_save">Save</string>
+        <string name="staticip_cancel">Cancel</string>
+        <string name="str_ok">OK</string>
+        <string name="str_cancel">Cancel</string>
+        <string name="str_about">Important</string>
+        <string name="str_mesg">Whether save Settings?</string>
+        <string name="save_failed">Save failed!</string>
+        <string name="default_static_ip">192.168.1.128</string>
+        <string name="default_static_getway">192.168.1.1</string>
+        <string name="default_static_netmask">255.255.255.0</string>
+        <string name="default_static_dns1">8.8.8.8</string>
+        <string name="default_static_dns2">8.8.4.4</string>
+        
+        <string name="user_experience_category_title">"User Experience Program"</string>
+        <string name="user_experience_title">"User Experience Program"</string>
+        <string name="user_experience_summary">"Help manufacturer improve its product and service by sending diagnostic and usage data."</string>
 </resources>

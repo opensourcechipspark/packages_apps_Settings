@@ -36,6 +36,7 @@ import android.os.PowerManager;
 import android.os.RemoteException;
 import android.os.ServiceManager;
 import android.os.UserManager;
+import android.os.SystemProperties;
 import android.provider.Settings;
 import android.util.Log;
 import android.widget.RemoteViews;
@@ -509,27 +510,33 @@ public class SettingsAppWidgetProvider extends AppWidgetProvider {
      * Subclass of StateTracker for location state.
      */
     private static final class LocationStateTracker extends StateTracker {
+        private int mCurrentLocationMode = Settings.Secure.LOCATION_MODE_OFF;
+
         public int getContainerId() { return R.id.btn_location; }
         public int getButtonId() { return R.id.img_location; }
         public int getIndicatorId() { return R.id.ind_location; }
         public int getButtonDescription() { return R.string.gadget_location; }
         public int getButtonImageId(boolean on) {
-            return on ? R.drawable.ic_appwidget_settings_location_on_holo
-                    : R.drawable.ic_appwidget_settings_location_off_holo;
+            if (on) {
+                switch (mCurrentLocationMode) {
+                    case Settings.Secure.LOCATION_MODE_HIGH_ACCURACY:
+                    case Settings.Secure.LOCATION_MODE_SENSORS_ONLY:
+                        return R.drawable.ic_appwidget_settings_location_on_holo;
+                    default:
+                        return R.drawable.ic_appwidget_settings_location_saving_holo;
+                }
+            }
+
+            return R.drawable.ic_appwidget_settings_location_off_holo;
         }
 
         @Override
         public int getActualState(Context context) {
             ContentResolver resolver = context.getContentResolver();
-            int currentLocationMode = Settings.Secure.getInt(resolver,
+            mCurrentLocationMode = Settings.Secure.getInt(resolver,
                     Settings.Secure.LOCATION_MODE, Settings.Secure.LOCATION_MODE_OFF);
-            switch (currentLocationMode) {
-                case Settings.Secure.LOCATION_MODE_BATTERY_SAVING:
-                case Settings.Secure.LOCATION_MODE_OFF:
-                    return STATE_DISABLED;
-            }
-
-            return STATE_ENABLED;
+            return (mCurrentLocationMode == Settings.Secure.LOCATION_MODE_OFF)
+                    ? STATE_DISABLED : STATE_ENABLED;
         }
 
         @Override
@@ -566,7 +573,7 @@ public class SettingsAppWidgetProvider extends AppWidgetProvider {
                                 break;
                         }
                         Settings.Secure.putInt(resolver, Settings.Secure.LOCATION_MODE, mode);
-                        return desiredState;
+                        return mode != Settings.Secure.LOCATION_MODE_OFF;
                     }
 
                     return getActualState(context) == STATE_ENABLED;
@@ -680,6 +687,10 @@ public class SettingsAppWidgetProvider extends AppWidgetProvider {
     static RemoteViews buildUpdate(Context context) {
         RemoteViews views = new RemoteViews(context.getPackageName(),
                 R.layout.widget);
+		if (SystemProperties.get("ro.rk.bt_enable", "true").equals("false")){
+		       views = new RemoteViews(context.getPackageName(),
+               R.layout.widget_no_bt);
+		}
         views.setOnClickPendingIntent(R.id.btn_wifi, getLaunchPendingIntent(context,
                 BUTTON_WIFI));
         views.setOnClickPendingIntent(R.id.btn_brightness,

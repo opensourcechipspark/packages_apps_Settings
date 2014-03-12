@@ -201,6 +201,7 @@
     <string name="proxy_error_empty_host_set_port" msgid="2451694104858226781">"Sehemu ya mlango sharti iwe wazi iwapo sehemu ya mpangishaji haina chochote"</string>
     <string name="proxy_error_invalid_port" msgid="2671425042711054494">"Lango uliloandika si halali."</string>
     <string name="proxy_warning_limited_support" msgid="7229337138062837422">"Proksi ya HTTP inayotumiwa na kivinjari lakini haiwezi kutumika na programu zingine."</string>
+    <string name="proxy_url" msgid="2523518669129974654">"URL ya PAC: "</string>
     <string name="radio_info_signal_location_label" msgid="16475158265551708">"Mahali:"</string>
     <string name="radio_info_neighboring_location_label" msgid="2385625674055934880">"CID ya ujirani:"</string>
     <string name="radio_info_cellinfo_label" msgid="1300937728020622362">"Maelezo ya Simu:"</string>
@@ -504,28 +505,18 @@
     <string name="bluetooth_dock_settings_headset" msgid="1001821426078644650">"Kama simu ya spika"</string>
     <string name="bluetooth_dock_settings_a2dp" msgid="8791004998846630574">"Kwa muziki na midia"</string>
     <string name="bluetooth_dock_settings_remember" msgid="5551459057010609115">"Kumbuka mipangilio"</string>
-    <string name="wifi_display_settings_title" msgid="564299108014609382">"Vifaa visivyotumia waya"</string>
-    <string name="wifi_display_settings_empty_list_wifi_display_off" msgid="1225626898926363100">"Ili kuona vifaa, washa uonyeshaji bila kutumia waya."</string>
-    <string name="wifi_display_settings_empty_list_wifi_display_disabled" msgid="1336244693183075466">"Uonyeshaji pasiwaya umezimwa kwa sababu Wi-Fi imezima."</string>
-    <string name="wifi_display_search_for_devices" msgid="5065526281193354502">"Tafuta vifaa"</string>
-    <string name="wifi_display_searching_for_devices" msgid="5172373825348672137">"Inatafuta…"</string>
-    <string name="wifi_display_no_devices_found" msgid="8180582698282377626">"Hakuna vifaa visivyotumia waya vilivyopatikana karibu"</string>
-    <string name="wifi_display_paired_devices" msgid="7395326840730024303">"Maonyesho yaliyooanishwa"</string>
-    <string name="wifi_display_available_devices" msgid="4558314642853513487">"Vifaa vinavyopatikana"</string>
+    <string name="wifi_display_settings_title" msgid="2925465988657380522">"Utumaji wa Skrini"</string>
+    <string name="wifi_display_enable_menu_item" msgid="4883036464138167674">"Washa kuonyesha skrini bila kutumia waya"</string>
+    <string name="wifi_display_no_devices_found" msgid="1382012407154143453">"Hakuna vifaa vilivyopatikana karibu."</string>
     <string name="wifi_display_status_connecting" msgid="5688608834000748607">"Inaunganisha"</string>
     <string name="wifi_display_status_connected" msgid="8364125226376985558">"Vimeunganishwa"</string>
-    <string name="wifi_display_status_available" msgid="1924167525172207067">"Inapatikana"</string>
     <string name="wifi_display_status_in_use" msgid="8556830875615434792">"Vinavyotumika"</string>
+    <string name="wifi_display_status_not_available" msgid="5714978725794210102">"Hakipatikani"</string>
     <string name="wifi_display_details" msgid="7791118209992162698">"Onyesha mipangilio"</string>
-    <string name="wifi_display_disconnect_title" msgid="1543715924639003599">"Kata muunganisho?"</string>
-    <string name="wifi_display_disconnect_text" msgid="4824860802264489088">"Hii itaukata muunganisho wako kwa:&lt;br&gt;&lt;b&gt;<xliff:g id="DEVICE_NAME">%1$s</xliff:g>&lt;/b&gt;"</string>
     <string name="wifi_display_options_title" msgid="5740656401635054838">"Chaguo za uonyeshaji bila kutumia waya"</string>
     <string name="wifi_display_options_forget" msgid="9119048225398894580">"Sahau"</string>
     <string name="wifi_display_options_done" msgid="5703116500357822557">"Imekamilika"</string>
     <string name="wifi_display_options_name" msgid="4756080222307467898">"Jina"</string>
-    <string name="wifi_display_summary_on" msgid="3695429596604962531">"Imewashwa"</string>
-    <string name="wifi_display_summary_off" msgid="2445210133184740611">"Imezimwa"</string>
-    <string name="wifi_display_summary_disabled" msgid="5318394806146587849">"Imelemazwa"</string>
     <string name="nfc_quick_toggle_title" msgid="6769159366307299004">"NFC"</string>
     <string name="nfc_quick_toggle_summary" product="tablet" msgid="8302974395787498915">"Ruhusu ubadilishanaji wa data wakati kompyuta kibao inagusa kifaa kingine"</string>
     <string name="nfc_quick_toggle_summary" product="default" msgid="5237208142892767592">"Ruhusu ubadilishanaji wa data wakati simu inagusa kifaa kingine"</string>
@@ -1453,6 +1444,7 @@
     <string name="print_cancel" msgid="3621199386568672235">"Ghairi"</string>
     <string name="print_job_summary" msgid="8472427347192930694">"<xliff:g id="PRINTER">%1$s</xliff:g>\n<xliff:g id="TIME">%2$s</xliff:g>"</string>
     <string name="print_printing_state_title_template" msgid="5736107667714582025">"Inachapisha <xliff:g id="PRINT_JOB_NAME">%1$s</xliff:g>"</string>
+    <string name="print_cancelling_state_title_template" msgid="7102968925358219875">"Inaghairi <xliff:g id="PRINT_JOB_NAME">%1$s</xliff:g>"</string>
     <string name="print_failed_state_title_template" msgid="1436099128973357969">"Hitilafu ya printa <xliff:g id="PRINT_JOB_NAME">%1$s</xliff:g>"</string>
     <string name="print_blocked_state_title_template" msgid="9065391617425962424">"Printa imezuiwa <xliff:g id="PRINT_JOB_NAME">%1$s</xliff:g>"</string>
     <string name="print_search_box_shown_utterance" msgid="7730361832020726951">"Kisanduku cha kutafutia kimeonyeshwa"</string>
@@ -1528,7 +1520,7 @@
     <string name="battery_sugg_bluetooth_headset" msgid="4071352514714259230">"Jaribu kuunganisha kwa kifaa tofauti cha Bluetooth"</string>
     <string name="battery_desc_apps" msgid="8530418792605735226">"Betri iliyotumiwa na Bluetooth"</string>
     <string name="battery_sugg_apps_info" msgid="6907588126789841231">"Wacha au uondoe programu"</string>
-    <string name="battery_sugg_apps_gps" msgid="5959067516281866135">"Chagua hali ya kuokoa betri"</string>
+    <string name="battery_sugg_apps_gps" msgid="5959067516281866135">"Chagua hali inayookoa betri"</string>
     <string name="battery_sugg_apps_settings" msgid="3974902365643634514">"Huenda programu ikatoa mipangilio ya kupunguza utumiaji wa betri"</string>
     <string name="battery_desc_users" msgid="7682989161885027823">"Betri imetumiwa na mtumiaji"</string>
     <string name="menu_stats_unplugged" msgid="8296577130840261624">"<xliff:g id="UNPLUGGED">%1$s</xliff:g> tangu ilipoondolewa"</string>
@@ -1955,7 +1947,7 @@
     <string name="done_button" msgid="1991471253042622230">"Nimemaliza"</string>
     <string name="ssl_ca_cert_dialog_title" msgid="5339377665264149395">"Ufuatiliaji wa mtandao"</string>
     <string name="ssl_ca_cert_info_message" msgid="4583879256548819713">"Kifaa hiki kimesimamiwa na:\n<xliff:g id="MANAGING_DOMAIN">%s</xliff:g>\n\nMsimamizi wako anaweza kufuatilia shughuli za mtandao wako, ikiwa ni pamoja na barua pepe, programu, na wavuti wa usalama.\n \nKwa maelezo zaidi, wasiliana na msimamizi wako."</string>
-    <string name="ssl_ca_cert_warning_message" msgid="8212122519110935512">"Mtu mwingine anaweza kufuatilia shughuli za mtandao wako\n, ikiwa ni pamoja na barua pepe, programu, na wavuti salama.\n\nKitambulisho cha kuaminika kilichosakinishwa kwenye kifaa chako kinafanikisha jambo hili."</string>
+    <string name="ssl_ca_cert_warning_message" msgid="8216218659139190498">"Mtu mwingine ana uwezo wa kufuatilia shughuli ya mtandao wako, ikiwa ni pamoja na barua pepe, programu, na tovuti salama. \n\n Kitambulisho cha kuaminika kilichosakinishwa kwenye kifaa chako kinafanikisha hili."</string>
     <string name="ssl_ca_cert_settings_button" msgid="8760495070836213605">"Angalia vitambulisho vya kuaminika"</string>
     <string name="user_settings_title" msgid="6151874007858148344">"Watumiaji"</string>
     <string name="user_list_title" msgid="7937158411137563543">"Watumiaji na wasifu"</string>

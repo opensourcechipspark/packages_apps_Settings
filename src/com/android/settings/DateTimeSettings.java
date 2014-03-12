@@ -38,7 +38,7 @@ import android.provider.Settings.SettingNotFoundException;
 import android.text.format.DateFormat;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
-
+import android.os.UserHandle;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -318,7 +318,8 @@ public class DateTimeSettings extends SettingsPreferenceFragment
 
     private void timeUpdated() {
         Intent timeChanged = new Intent(Intent.ACTION_TIME_CHANGED);
-        getActivity().sendBroadcast(timeChanged);
+        //getActivity().sendBroadcast(timeChanged);
+		getActivity().sendBroadcastAsUser(timeChanged,UserHandle.CURRENT);
     }
 
     /*  Get & Set values from the system settings  */
@@ -328,9 +329,11 @@ public class DateTimeSettings extends SettingsPreferenceFragment
     }
 
     private void set24Hour(boolean is24Hour) {
-        Settings.System.putString(getContentResolver(),
-                Settings.System.TIME_12_24,
-                is24Hour? HOURS_24 : HOURS_12);
+      //  Settings.System.putString(getContentResolver(),
+         Settings.System.putStringForUser(getContentResolver(),
+		        Settings.System.TIME_12_24,
+         //       is24Hour? HOURS_24 : HOURS_12);
+		  is24Hour? HOURS_24 : HOURS_12,UserHandle.USER_CURRENT);
     }
 
     private String getDateFormat() {

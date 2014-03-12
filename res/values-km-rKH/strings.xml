@@ -199,6 +199,7 @@
     <string name="proxy_error_empty_host_set_port" msgid="2451694104858226781">"វាល​ច្រក​ត្រូវ​តែ​ទទេ បើ​វាល​ម៉ាស៊ីន​ទទេ។"</string>
     <string name="proxy_error_invalid_port" msgid="2671425042711054494">"ច្រក​ដែល​អ្នក​បាន​បញ្ចូល​មិន​ត្រឹមត្រូវ។"</string>
     <string name="proxy_warning_limited_support" msgid="7229337138062837422">"ប្រូកស៊ី HTTP ត្រូវ​បាន​ប្រើ​ដោយ​កម្មវិធី​អ៊ីនធឺណិត ប៉ុន្តែ​អាច​មិន​ត្រូវ​បាន​ប្រើ​ដោយ​កម្មវិធី​ផ្សេង។"</string>
+    <string name="proxy_url" msgid="2523518669129974654">"PAC URL: "</string>
     <string name="radio_info_signal_location_label" msgid="16475158265551708">"ទីតាំង៖"</string>
     <string name="radio_info_neighboring_location_label" msgid="2385625674055934880">"CID នៅ​ជិត៖"</string>
     <string name="radio_info_cellinfo_label" msgid="1300937728020622362">"ព័ត៌មាន​ចល័ត៖"</string>
@@ -512,28 +513,18 @@
     <string name="bluetooth_dock_settings_headset" msgid="1001821426078644650">"ជា​​អូប៉ាល័រ​ទូរស័ព្ទ"</string>
     <string name="bluetooth_dock_settings_a2dp" msgid="8791004998846630574">"សម្រាប់​តន្ត្រី និង​មេឌៀ"</string>
     <string name="bluetooth_dock_settings_remember" msgid="5551459057010609115">"ចងចាំ​ការ​កំណត់"</string>
-    <string name="wifi_display_settings_title" msgid="564299108014609382">"ការ​បង្ហាញ​ឥត​ខ្សែ"</string>
-    <string name="wifi_display_settings_empty_list_wifi_display_off" msgid="1225626898926363100">"ដើម្បី​មើល​ឧបករណ៍ បើក​ការ​បង្ហាញ​បណ្ដាញ​ឥត​ខ្សែ។"</string>
-    <string name="wifi_display_settings_empty_list_wifi_display_disabled" msgid="1336244693183075466">"បាន​បិទ​ការ​បង្ហាញ​បណ្ដាញ​ឥត​ខ្សែ ព្រោះ​បាន​បិទ​វ៉ាយហ្វាយ។"</string>
-    <string name="wifi_display_search_for_devices" msgid="5065526281193354502">"ស្វែងរក​ការ​បង្ហាញ"</string>
-    <string name="wifi_display_searching_for_devices" msgid="5172373825348672137">"កំពុង​​ស្វែងរក..."</string>
-    <string name="wifi_display_no_devices_found" msgid="8180582698282377626">"រក​មិន​ឃើញ​ការ​បង្ហាញ​បណ្ដាញ​ឥត​ខ្សែ​នៅ​ជិត​នេះ​ទេ"</string>
-    <string name="wifi_display_paired_devices" msgid="7395326840730024303">"បង្ហាញ​ឧបករណ៍​បាន​ផ្គូផ្គង"</string>
-    <string name="wifi_display_available_devices" msgid="4558314642853513487">"ឧបករណ៍​អាច​ប្រើ​បាន"</string>
+    <string name="wifi_display_settings_title" msgid="2925465988657380522">"ចាត់​ថ្នាក់​អេក្រង់"</string>
+    <string name="wifi_display_enable_menu_item" msgid="4883036464138167674">"បើក​ការ​បង្ហាញ​ឥត​ខ្សែ"</string>
+    <string name="wifi_display_no_devices_found" msgid="1382012407154143453">"រក​មិន​ឃើញ​ឧបករណ៍​ដែល​នៅ​ក្បែរ"</string>
     <string name="wifi_display_status_connecting" msgid="5688608834000748607">"តភ្ជាប់"</string>
     <string name="wifi_display_status_connected" msgid="8364125226376985558">"បាន​តភ្ជាប់"</string>
-    <string name="wifi_display_status_available" msgid="1924167525172207067">"អាច​​ប្រើ​បាន"</string>
     <string name="wifi_display_status_in_use" msgid="8556830875615434792">"កំពុង​ប្រើ"</string>
+    <string name="wifi_display_status_not_available" msgid="5714978725794210102">"មិន​អាច​ប្រើ​បាន"</string>
     <string name="wifi_display_details" msgid="7791118209992162698">"កំណត់​ការ​បង្ហាញ"</string>
-    <string name="wifi_display_disconnect_title" msgid="1543715924639003599">"ផ្ដាច់?"</string>
-    <string name="wifi_display_disconnect_text" msgid="4824860802264489088">"វា​នឹង​បញ្ចប់​ការ​តភ្ជាប់​របស់​អ្នក​​ជា​មួយ៖&lt;br&gt;&lt;b&gt;<xliff:g id="DEVICE_NAME">%1$s</xliff:g>&lt;/b&gt;"</string>
     <string name="wifi_display_options_title" msgid="5740656401635054838">"ជម្រើស​បង្ហាញ​បណ្ដាញ​ឥតខ្សែ"</string>
     <string name="wifi_display_options_forget" msgid="9119048225398894580">"ភ្លេច"</string>
     <string name="wifi_display_options_done" msgid="5703116500357822557">"រួចរាល់"</string>
     <string name="wifi_display_options_name" msgid="4756080222307467898">"ឈ្មោះ"</string>
-    <string name="wifi_display_summary_on" msgid="3695429596604962531">"បើក"</string>
-    <string name="wifi_display_summary_off" msgid="2445210133184740611">"បិទ"</string>
-    <string name="wifi_display_summary_disabled" msgid="5318394806146587849">"បិទ"</string>
     <string name="nfc_quick_toggle_title" msgid="6769159366307299004">"NFC"</string>
     <string name="nfc_quick_toggle_summary" product="tablet" msgid="8302974395787498915">"ឲ្យ​ប្ដូរ​ទិន្នន័យ​ ពេល​កុំព្យូទ័រ​បន្ទះ​ប៉ះ​ឧបករណ៍​ផ្សេង"</string>
     <string name="nfc_quick_toggle_summary" product="default" msgid="5237208142892767592">"ឲ្យ​ប្ដូរ​ទិន្នន័យ​ពេល​ទូរស័ព្ទ​ប៉ះ​ឧបករណ៍​ផ្សេង"</string>
@@ -1459,6 +1450,7 @@
     <string name="print_cancel" msgid="3621199386568672235">"បោះបង់"</string>
     <string name="print_job_summary" msgid="8472427347192930694">"<xliff:g id="PRINTER">%1$s</xliff:g>\n<xliff:g id="TIME">%2$s</xliff:g>"</string>
     <string name="print_printing_state_title_template" msgid="5736107667714582025">"កំពុង​​បោះពុម្ព <xliff:g id="PRINT_JOB_NAME">%1$s</xliff:g>"</string>
+    <string name="print_cancelling_state_title_template" msgid="7102968925358219875">"ការ​បោះបង់ <xliff:g id="PRINT_JOB_NAME">%1$s</xliff:g>"</string>
     <string name="print_failed_state_title_template" msgid="1436099128973357969">"កំហុស​​ម៉ាស៊ីន​បោះពុម្ព <xliff:g id="PRINT_JOB_NAME">%1$s</xliff:g>"</string>
     <string name="print_blocked_state_title_template" msgid="9065391617425962424">"បាន​ទប់ស្កាត់​ម៉ាស៊ីន​បោះពុម្ព <xliff:g id="PRINT_JOB_NAME">%1$s</xliff:g>"</string>
     <string name="print_search_box_shown_utterance" msgid="7730361832020726951">"បាន​បង្ហាញ​ប្រ​អប់​ស្វែងរក"</string>
@@ -1961,7 +1953,7 @@
     <string name="done_button" msgid="1991471253042622230">"រួចរាល់"</string>
     <string name="ssl_ca_cert_dialog_title" msgid="5339377665264149395">"ការ​ត្រួតពិនិត្យ​បណ្ដាញ"</string>
     <string name="ssl_ca_cert_info_message" msgid="4583879256548819713">"ឧបករណ៍​នេះ​ត្រូវ​បាន​គ្រប់គ្រង​ដោយ៖ \n <xliff:g id="MANAGING_DOMAIN">%s</xliff:g> \n \n អ្នក​គ្រប់គ្រង​របស់​អ្នក​មាន​សមត្ថភាព​ក្នុង​ការ​ត្រួតពិនិត្យ​សកម្មភាព​បណ្ដាញ​របស់​អ្នក ​រួម​បញ្ចូល​ទាំង​អ៊ីមែល​, កម្មវិធី​និង​គេហ​ទំព័រ​ដែល​មាន​សុវត្ថិភាព​។ \n \n សម្រាប់​ព័ត៌មាន​បន្ថែម​សូម​ទាក់ទង​អ្នក​គ្រប់គ្រង​របស់​អ្នក​។"</string>
-    <string name="ssl_ca_cert_warning_message" msgid="8212122519110935512">"ភាគី​ទី​បី​អាច​​ពិនិត្យ​សកម្មភាព \n បណ្ដាញ​របស់​អ្នក​រួមមាន អ៊ីមែល កម្មវិធី និង​​តំបន់បណ្ដាញ​ដែល​មាន​សុវត្ថិភាព។\n\n ​ការដែលដំឡើង​អត្តសញ្ញាណ​ដែល​ទុក​ចិត្ត​លើ​​ឧបករណ៍​របស់​អ្នក​បង្កជាហេតុដូចនេះ។"</string>
+    <string name="ssl_ca_cert_warning_message" msgid="8216218659139190498">"ភាគី​ទីបី​មាន​សមត្ថភាព​គ្រប់គ្រង​សកម្មភាព​បណ្ដាញ​របស់​អ្នក រួម​មាន​អ៊ីមែល កម្មវិធី និង​សុវត្ថិភាព​តំបន់បណ្ដាញ។ \n \n ព័ត៌មាន​សម្ងាត់​ដែល​ទុកចិត្ត​ត្រូវ​បាន​ដំឡើង​នៅ​លើ​ឧបករណ៍​របស់​អ្នក​ដើម្បី​ឲ្យ​វា​​អាច​ធ្វើ​បាន។"</string>
     <string name="ssl_ca_cert_settings_button" msgid="8760495070836213605">"ពិនិត្យ​​​អត្តសញ្ញាណ​ដែលបាន​​​ទុកចិត្ត"</string>
     <string name="user_settings_title" msgid="6151874007858148344">"អ្នកប្រើ"</string>
     <string name="user_list_title" msgid="7937158411137563543">"អ្នកប្រើ &amp; ប្រវត្តិរូប"</string>

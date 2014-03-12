@@ -79,6 +79,13 @@ public class ToggleCaptioningPreferenceFragment extends Fragment {
         refreshPreviewText();
     }
 
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		if (mPropsFragment != null) 
+			getFragmentManager().beginTransaction().remove(mPropsFragment).commit();
+	}
+
     public void refreshPreviewText() {
         final SubtitleView preview = mPreviewText;
         if (preview != null) {

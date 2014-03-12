@@ -199,6 +199,7 @@
     <string name="proxy_error_empty_host_set_port" msgid="2451694104858226781">"如果主机字段为空，则端口字段必须为空。"</string>
     <string name="proxy_error_invalid_port" msgid="2671425042711054494">"您键入的端口无效。"</string>
     <string name="proxy_warning_limited_support" msgid="7229337138062837422">"浏览器会使用 HTTP 代理，但其他应用可能不会使用。"</string>
+    <string name="proxy_url" msgid="2523518669129974654">"PAC 网址： "</string>
     <string name="radio_info_signal_location_label" msgid="16475158265551708">"地点："</string>
     <string name="radio_info_neighboring_location_label" msgid="2385625674055934880">"相邻的 CID："</string>
     <string name="radio_info_cellinfo_label" msgid="1300937728020622362">"小区信息："</string>
@@ -512,28 +513,18 @@
     <string name="bluetooth_dock_settings_headset" msgid="1001821426078644650">"将基座用作免提电话"</string>
     <string name="bluetooth_dock_settings_a2dp" msgid="8791004998846630574">"用于音乐和媒体"</string>
     <string name="bluetooth_dock_settings_remember" msgid="5551459057010609115">"记住设置"</string>
-    <string name="wifi_display_settings_title" msgid="564299108014609382">"无线显示"</string>
-    <string name="wifi_display_settings_empty_list_wifi_display_off" msgid="1225626898926363100">"要查看设备，请打开无线显示功能。"</string>
-    <string name="wifi_display_settings_empty_list_wifi_display_disabled" msgid="1336244693183075466">"由于 WLAN 已关闭，因此无线显示功能已停用。"</string>
-    <string name="wifi_display_search_for_devices" msgid="5065526281193354502">"搜索显示设备"</string>
-    <string name="wifi_display_searching_for_devices" msgid="5172373825348672137">"正在搜索…"</string>
-    <string name="wifi_display_no_devices_found" msgid="8180582698282377626">"找不到附近有无线显示设备。"</string>
-    <string name="wifi_display_paired_devices" msgid="7395326840730024303">"已配对的显示设备"</string>
-    <string name="wifi_display_available_devices" msgid="4558314642853513487">"可用设备"</string>
+    <string name="wifi_display_settings_title" msgid="2925465988657380522">"投射屏幕"</string>
+    <string name="wifi_display_enable_menu_item" msgid="4883036464138167674">"启用无线显示"</string>
+    <string name="wifi_display_no_devices_found" msgid="1382012407154143453">"未在附近找到设备。"</string>
     <string name="wifi_display_status_connecting" msgid="5688608834000748607">"正在连接"</string>
     <string name="wifi_display_status_connected" msgid="8364125226376985558">"已连接"</string>
-    <string name="wifi_display_status_available" msgid="1924167525172207067">"可用"</string>
     <string name="wifi_display_status_in_use" msgid="8556830875615434792">"正在使用中"</string>
+    <string name="wifi_display_status_not_available" msgid="5714978725794210102">"无法使用"</string>
     <string name="wifi_display_details" msgid="7791118209992162698">"显示设备设置"</string>
-    <string name="wifi_display_disconnect_title" msgid="1543715924639003599">"是否断开连接？"</string>
-    <string name="wifi_display_disconnect_text" msgid="4824860802264489088">"此操作将会断开您与以下设备的连接：&lt;br&gt;&lt;b&gt;<xliff:g id="DEVICE_NAME">%1$s</xliff:g>&lt;/b&gt;"</string>
     <string name="wifi_display_options_title" msgid="5740656401635054838">"无线显示选项"</string>
     <string name="wifi_display_options_forget" msgid="9119048225398894580">"取消保存"</string>
     <string name="wifi_display_options_done" msgid="5703116500357822557">"完成"</string>
     <string name="wifi_display_options_name" msgid="4756080222307467898">"名称"</string>
-    <string name="wifi_display_summary_on" msgid="3695429596604962531">"开启"</string>
-    <string name="wifi_display_summary_off" msgid="2445210133184740611">"关闭"</string>
-    <string name="wifi_display_summary_disabled" msgid="5318394806146587849">"未启用"</string>
     <string name="nfc_quick_toggle_title" msgid="6769159366307299004">"NFC"</string>
     <string name="nfc_quick_toggle_summary" product="tablet" msgid="8302974395787498915">"允许平板电脑在接触其他设备时交换数据"</string>
     <string name="nfc_quick_toggle_summary" product="default" msgid="5237208142892767592">"允许手机在接触其他设备时交换数据"</string>
@@ -713,6 +704,9 @@
     <string name="lock_sounds_enable_title" msgid="450098505659399520">"锁屏提示音"</string>
     <string name="haptic_feedback_enable_title" msgid="2438293710530828760">"触摸时振动"</string>
     <string name="audio_record_proc_title" msgid="4271091199976457534">"降噪"</string>
+    <string name="audio_spdif_output_enable_title">"同轴输出"</string>
+    <string name="audio_spdif_output_enable_summary">"所有音频将通过同轴输出"</string>
+    <string name="audio_spdif_output_category_title">"输出"</string>
     <string name="volume_media_description" msgid="7949355934788807863">"音乐、视频、游戏和其他媒体"</string>
     <string name="volume_ring_description" msgid="5936851631698298989">"铃声和通知"</string>
     <string name="volume_notification_description" msgid="5810902320215328321">"通知"</string>
@@ -887,6 +881,10 @@
     <string name="usb_mtp_summary" msgid="4617321473211391236">"让您可以在 Windows 上传输媒体文件，或在 Mac 上使用 Android 文件传输应用来传输文件（请参见 www.android.com/filetransfer）"</string>
     <string name="usb_ptp_title" msgid="3852760810622389620">"相机 (PTP)"</string>
     <string name="usb_ptp_summary" msgid="7673397474756664929">"让您可以使用相机软件传输照片，并在不支持 MTP 的计算机上传输任何文件"</string>
+    	<!-- Storage setting.  Title for Mass Storage [CHAR LIMIT=30]-->
+	<string name="usb_mass_title">大容量存储设备</string>
+	<!-- Storage setting.  Label for Mass Storage [CHAR LIMIT=30]-->
+	<string name="usb_mass_summary">使用大容量存储设备在计算机上传输文件</string>
     <string name="usb_label_installer_cd" msgid="4331173824920630215">"安装文件传输工具"</string>
     <string name="storage_other_users" msgid="808708845102611856">"其他用户"</string>
     <string name="battery_status_title" msgid="9159414319574976203">"电池状态"</string>
@@ -1459,6 +1457,7 @@
     <string name="print_cancel" msgid="3621199386568672235">"取消"</string>
     <string name="print_job_summary" msgid="8472427347192930694">"<xliff:g id="PRINTER">%1$s</xliff:g>\n<xliff:g id="TIME">%2$s</xliff:g>"</string>
     <string name="print_printing_state_title_template" msgid="5736107667714582025">"正在打印“<xliff:g id="PRINT_JOB_NAME">%1$s</xliff:g>”"</string>
+    <string name="print_cancelling_state_title_template" msgid="7102968925358219875">"正在取消打印“<xliff:g id="PRINT_JOB_NAME">%1$s</xliff:g>”"</string>
     <string name="print_failed_state_title_template" msgid="1436099128973357969">"打印机在打印“<xliff:g id="PRINT_JOB_NAME">%1$s</xliff:g>”时出错"</string>
     <string name="print_blocked_state_title_template" msgid="9065391617425962424">"打印机拒绝打印“<xliff:g id="PRINT_JOB_NAME">%1$s</xliff:g>”"</string>
     <string name="print_search_box_shown_utterance" msgid="7730361832020726951">"搜索框已显示"</string>
@@ -1534,7 +1533,7 @@
     <string name="battery_sugg_bluetooth_headset" msgid="4071352514714259230">"尝试连接另一蓝牙设备"</string>
     <string name="battery_desc_apps" msgid="8530418792605735226">"应用所耗电量"</string>
     <string name="battery_sugg_apps_info" msgid="6907588126789841231">"停止或卸载应用"</string>
-    <string name="battery_sugg_apps_gps" msgid="5959067516281866135">"选择省电模式"</string>
+    <string name="battery_sugg_apps_gps" msgid="5959067516281866135">"选择“耗电量低”模式"</string>
     <string name="battery_sugg_apps_settings" msgid="3974902365643634514">"该应用中可能提供了用于减少耗电量的设置"</string>
     <string name="battery_desc_users" msgid="7682989161885027823">"用户所耗电量"</string>
     <string name="menu_stats_unplugged" msgid="8296577130840261624">"拔下电源后已过 <xliff:g id="UNPLUGGED">%1$s</xliff:g>"</string>
@@ -1961,7 +1960,7 @@
     <string name="done_button" msgid="1991471253042622230">"完成"</string>
     <string name="ssl_ca_cert_dialog_title" msgid="5339377665264149395">"网络监控"</string>
     <string name="ssl_ca_cert_info_message" msgid="4583879256548819713">"此设备由以下企业域管理：\n<xliff:g id="MANAGING_DOMAIN">%s</xliff:g>\n\n您的管理员可以监控您的网络活动，包括收发电子邮件、使用应用和浏览安全网站。\n\n如要了解详情，请与您的管理员联系。"</string>
-    <string name="ssl_ca_cert_warning_message" msgid="8212122519110935512">"第三方可以监控您的网络活动，包括\n收发电子邮件、使用应用和浏览安全网站。\n\n如果您在设备上安装受信任的凭据，就可能出现这种情况。"</string>
+    <string name="ssl_ca_cert_warning_message" msgid="8216218659139190498">"第三方可以监控您的网络活动，包括收发电子邮件、使用应用和浏览安全网站。\n\n如果您在设备上安装受信任的凭据，就可能出现这种情况。"</string>
     <string name="ssl_ca_cert_settings_button" msgid="8760495070836213605">"查看受信任的凭据"</string>
     <string name="user_settings_title" msgid="6151874007858148344">"用户"</string>
     <string name="user_list_title" msgid="7937158411137563543">"用户和个人资料"</string>
@@ -2049,5 +2048,97 @@
     <string name="wizard_finish" msgid="3286109692700083252">"完成"</string>
     <string name="user_image_take_photo" msgid="1280274310152803669">"拍照"</string>
     <string name="user_image_choose_photo" msgid="7940990613897477057">"从图库中选择照片"</string>
-    <string name="regulatory_info_text" msgid="5623087902354026557"></string>
+    <string name="hdmi_settings">"HDMI配置"</string>
+	<string name="hdmi_settings_summary">配置HDMI设置项用于电视屏幕输出</string>
+    <string name="hdmi_lcd_timeout">屏幕休眠</string>
+	<string name="hdmi_title">"打开HDMI"</string>
+	<string name="hdmi_resolution_title">"分辨率设置</string>
+	<string name="hdmi_screen_zoom">"屏幕缩放"</string>
+	<string name="regulatory_info_text" msgid="5623087902354026557"></string>
+	<!-- vga settings-->
+	<string name="vga_title">打开VGA</string>
+	<string name="vga_resolution_title">设置VGA分辨率</string>
+	<string name="vga_settings">VGA设置</string>
+	<string name="vga_settings_summary">配置VGA设置项用于VGA输出</string>
+	<string name="vga_settings_resolution_summary">为你的机器设置合适的分辨率输出</string>
+
+    <!--screen shot-->
+    <string name="app_name">截屏管理器</string>
+    <string name="screenshot_manager">截屏设置</string>
+    <string name="screenshot_delay_title">延时截屏设置 </string>
+    <string name="screenshot_show">在状态栏上显示截屏按钮</string>
+    <string name="screenshot_version">截屏管理器版本</string>
+    <string name="screenshot_storage_title">设置截屏图片存储位置</string>
+    <string name="later">秒以后截屏</string>
+     <!-- Ethernet settings -->
+     <!-- Ethernet settings check box title on Main Settings screen -->
+     <string name="ethernet_quick_toggle_title">使用以太网</string>
+     <!-- Ethernet settings check box summary for turning on ethernet -->
+     <string name="ethernet_quick_toggle_summary">打开以太网</string>
+     <!--Used as title on second screen after selecting Ethernet settings -->
+     <string name="ethernet_settings">以太网</string>
+     <!--Wireless controls screen, settings title for the item to take you to the ethernet settings screen -->
+     <string name="ethernet_settings_title">以太网</string>
+     <!--Wireless controls screen, settings summary for the item tot ake you to the ethernet settings screen -->
+     <string name="ethernet_settings_summary">设置以太网</string>
+     <!-- ethernet ip address  -->
+     <string name="ethernet_ip_addr">IP地址</string>
+     <!-- ethernet netmask  -->
+     <string name="ethernet_netmask">子网掩码</string>
+     <!-- ethernet gateway  -->
+     <string name="ethernet_gateway">默认网关</string>
+     <!-- ethernet dns1  -->
+     <string name="ethernet_dns1">域名1</string>
+     <!-- ethernet dns2 -->
+     <string name="ethernet_dns2">域名2</string>
+     <!-- ethernet mac -->
+     <string name="ethernet_mac">MAC地址</string>
+ 
+     <string name="ethernet_connected">已连接</string>
+     <string name="ethernet_connecting">连接中</string>
+     <string name="ethernet_unconnected">未连接</string>
+     <string name="ethernet_static_settings">静态IP设置</string>
+     <string name="ethernet_controls">Ethernet controls</string>
+     <string name="ethernet_linkage_status">Linkage status</string>
+     <string name="ethernet_enable_new_ip_settings">Enable new IP settings</string>
+     <string name="ethernet_ip_networks_status">IP network status</string>
+     <string name="ethernet">以太网</string>
+     <string name="ethernet_error_starting">Unable to start Ethernet</string>
+     <string name="ethernet_error_stopping">Unable to stop Ethernet</string>
+     <string name="ethernet_ip_settings_titlebar">IP settings</string>
+     <string name="ethernet_ip_settings_invalid_ip">请输入有效的IP地址.</string>
+     <string name="ethernet_use_static_ip">使用静态IP地址</string>
+     <string name="ethernet_static_ip_address">IP地址</string>
+     <string name="ethernet_static_dns1">域名1</string>
+     <string name="ethernet_static_dns2">域名2</string>
+     <string name="ethernet_static_gateway">默认网关</string>
+     <string name="ethernet_static_netmask">子网掩码</string>
+     <string name="ethernet_advanced_mac_address_title">MAC地址</string>
+     <string name="ethernet_advanced_ip_address_title">IP地址</string>
+        <string name="linkage_status_disconnected">Link detected: no. Ethernet is disconnected phisically!</string>
+        <string name="linkage_status_dev_fail">Failed to turn up ethernet device! Is it esistent?</string>
+        <string name="duplex_full">Full</string>
+        <string name="duplex_half">Half</string>
+        <string name="duplex_unknown">Unknown</string>
+        <string name="linkage_status_format">Link detected: yes. Speed:
+        <xliff:g id="number" example="27">%d</xliff:g>Mb/s. Duplex:
+        <xliff:g id="queue_text" example="Queue">%s</xliff:g>.</string>
+        <string name="ip_network_status_connecting">Configing ethernet interface.</string>
+        <string name="ip_network_status_connected">Config ethernet interface successfully.</string>
+        <string name="ip_network_status_failed">Fail to config ethernet interface!</string>
+        <string name="ip_network_status_unavailable">Not available.</string>
+        <string name="eth_ip_settings_please_complete_settings">请输入完整的IP地址信息!</string>
+        <string name="eth_ip_settings_eth_is_disabled">Ethernet is disabled.</string>
+        <string name="ethernet_static_ip_settings_title">静态IP设置</string>
+        <string name="category_ethernet">静态IP设置</string>
+        <string name="staticip_save">保存</string>
+        <string name="staticip_cancel">取消</string>
+        <string name="str_ok">确认</string>
+        <string name="str_cancel">取消</string>
+        <string name="str_about">重要</string>
+        <string name="str_mesg">是否保存?</string>
+        <string name="save_failed">保存失败!</string>
+        <string name="user_experience_category_title">"用户体验计划"</string>
+        <string name="user_experience_title">"加入\"用户体验计划\""</string>
+        <string name="user_experience_summary">"我们会统计您对产品各项功能的使用情况,用以提升我们的产品和服务.整个过程将遵循我们的隐私策略."</string>
 </resources>

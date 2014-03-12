@@ -68,6 +68,7 @@ public class WirelessSettings extends RestrictedSettingsFragment
     private static final String KEY_SMS_APPLICATION = "sms_application";
     private static final String KEY_TOGGLE_NSD = "toggle_nsd"; //network service discovery
     private static final String KEY_CELL_BROADCAST_SETTINGS = "cell_broadcast_settings";
+    private static final String KEY_ETHERNET_SETTINGS = "ethernet_settings";
 
     public static final String EXIT_ECM_RESULT = "exit_ecm_result";
     public static final int REQUEST_CODE_EXIT_ECM = 1;
@@ -350,7 +351,11 @@ public class WirelessSettings extends RestrictedSettingsFragment
         if (!isSmsSupported()) {
             removePreference(KEY_SMS_APPLICATION);
         }
-
+		//add by xxh  revmoe KEY_MANAGE_MOBILE_PLAN when device is used as a MID 
+         if((SystemProperties.get("ril.function.dataonly")).equals("0")){
+	        removePreference(KEY_SMS_APPLICATION);
+		    removePreference(KEY_MANAGE_MOBILE_PLAN);
+        } 
         // Remove Airplane Mode settings if it's a stationary device such as a TV.
         if (getActivity().getPackageManager().hasSystemFeature(PackageManager.FEATURE_TELEVISION)) {
             removePreference(KEY_TOGGLE_AIRPLANE);
@@ -374,6 +379,10 @@ public class WirelessSettings extends RestrictedSettingsFragment
             p.setTitle(Utils.getTetheringLabel(cm));
         }
         protectByRestrictions(KEY_TETHER_SETTINGS);
+
+        if (SystemProperties.get("ro.rk.ethernet_enable", "true").equals("false")) {
+            getPreferenceScreen().removePreference(findPreference(KEY_ETHERNET_SETTINGS));
+        }
 
         // Enable link to CMAS app settings depending on the value in config.xml.
         boolean isCellBroadcastAppLinkEnabled = this.getResources().getBoolean(

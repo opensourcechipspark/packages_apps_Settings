@@ -190,6 +190,10 @@ public class WifiApEnabler {
                  */
                 mCheckBox.setChecked(true);
                 /* Doesnt need the airplane check */
+                // (gwl) delay 500 ms to fix hotspot error
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {}
                 mCheckBox.setEnabled(true);
                 break;
             case WifiManager.WIFI_AP_STATE_DISABLING:

@@ -15,7 +15,7 @@
  */
 
 package com.android.settings;
-
+import android.os.SystemProperties;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.OnAccountsUpdateListener;
@@ -40,6 +40,7 @@ import android.os.Bundle;
 import android.os.INetworkManagementService;
 import android.os.RemoteException;
 import android.os.ServiceManager;
+import android.os.SystemProperties;
 import android.os.UserHandle;
 import android.os.UserManager;
 import android.preference.Preference;
@@ -58,7 +59,7 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.Switch;
 import android.widget.TextView;
-
+import java.io.File;
 import com.android.internal.util.ArrayUtils;
 import com.android.settings.accessibility.AccessibilitySettings;
 import com.android.settings.accessibility.ToggleAccessibilityServicePreferenceFragment;
@@ -92,13 +93,13 @@ import com.android.settings.wifi.AdvancedWifiSettings;
 import com.android.settings.wifi.WifiEnabler;
 import com.android.settings.wifi.WifiSettings;
 import com.android.settings.wifi.p2p.WifiP2pSettings;
-
-import java.util.ArrayList;
+import com.android.settings.ScreenshotSetting;
+import com.android.settings.HdmiControllerActivity;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-
+import java.util.ArrayList;
 /**
  * Top-level settings activity to handle single pane and double pane UI layout.
  */
@@ -157,7 +158,8 @@ public class Settings extends PreferenceActivity
             R.id.about_settings,
             R.id.accessibility_settings,
             R.id.print_settings,
-            R.id.nfc_payment_settings,
+            R.id.screenshot_settings,
+			R.id.nfc_payment_settings,
             R.id.home_settings
     };
 
@@ -303,7 +305,9 @@ public class Settings extends PreferenceActivity
 
     @Override
     public boolean onIsMultiPane() {
-        return false;
+    	boolean preferMultiPane = getResources().getBoolean(
+                com.android.internal.R.bool.preferences_prefer_dual_pane);
+        return preferMultiPane;
     }
 
     private static final String[] ENTRY_FRAGMENTS = {
@@ -314,6 +318,9 @@ public class Settings extends PreferenceActivity
         TetherSettings.class.getName(),
         WifiP2pSettings.class.getName(),
         VpnSettings.class.getName(),
+	HdmiControllerActivity.class.getName(),
+	ScreenshotSetting.class.getName(),
+	HomeSettings.class.getName(),
         DateTimeSettings.class.getName(),
         LocalePicker.class.getName(),
         InputMethodAndLanguageSettings.class.getName(),
@@ -326,7 +333,6 @@ public class Settings extends PreferenceActivity
         ManageApplications.class.getName(),
         ProcessStatsUi.class.getName(),
         NotificationStation.class.getName(),
-        AppOpsSummary.class.getName(),
         LocationSettings.class.getName(),
         SecuritySettings.class.getName(),
         PrivacySettings.class.getName(),
@@ -506,7 +512,6 @@ public class Settings extends PreferenceActivity
         // uiOptions for fragments also defined as activities in manifest.
         if (WifiSettings.class.getName().equals(fragmentName) ||
                 WifiP2pSettings.class.getName().equals(fragmentName) ||
-                WifiDisplaySettings.class.getName().equals(fragmentName) ||
                 BluetoothSettings.class.getName().equals(fragmentName) ||
                 DreamSettings.class.getName().equals(fragmentName) ||
                 LocationSettings.class.getName().equals(fragmentName) ||
@@ -530,7 +535,15 @@ public class Settings extends PreferenceActivity
             updateHeaderList(headers);
         }
     }
-
+    private boolean hasHdmiFeature(){
+	      File file30=new File("/sys/class/display/HDMI/enable");
+          File file29=new File("/sys/class/hdmi/hdmi-0/enable");
+	     if(file30.exists()||file29.exists()){
+	       return true;
+	     }else{
+           return false;
+	   }
+	 }
     private void updateHeaderList(List<Header> target) {
         final boolean showDev = mDevelopmentPreferences.getBoolean(
                 DevelopmentSettings.PREF_SHOW,
@@ -550,10 +563,16 @@ public class Settings extends PreferenceActivity
                 if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_WIFI)) {
                     target.remove(i);
                 }
+			} else if(id ==R.id.screenshot_settings){
+			     if (SystemProperties.get("ro.rk.screenshot_enable", "true").equals("false")){
+				    target.remove(i);
+			    }
+					
             } else if (id == R.id.bluetooth_settings) {
                 // Remove Bluetooth Settings if Bluetooth service is not available.
-                if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH)) {
-                    target.remove(i);
+                //if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH)) {
+                if (SystemProperties.get("ro.rk.bt_enable", "true").equals("false")) {
+                    target.remove(header);
                 }
             } else if (id == R.id.data_usage_settings) {
                 // Remove data usage when kernel module not enabled
@@ -1082,7 +1101,15 @@ public class Settings extends PreferenceActivity
     public static class DeviceInfoSettingsActivity extends Settings { /* empty */ }
     public static class ApplicationSettingsActivity extends Settings { /* empty */ }
     public static class ManageApplicationsActivity extends Settings { /* empty */ }
-    public static class AppOpsSummaryActivity extends Settings { /* empty */ }
+    public static class AppOpsSummaryActivity extends Settings {
+        @Override
+        public boolean isValidFragment(String className) {
+            if (AppOpsSummary.class.getName().equals(className)) {
+                return true;
+            }
+            return super.isValidFragment(className);
+        }
+    }
     public static class StorageUseActivity extends Settings { /* empty */ }
     public static class DevelopmentSettingsActivity extends Settings { /* empty */ }
     public static class AccessibilitySettingsActivity extends Settings { /* empty */ }

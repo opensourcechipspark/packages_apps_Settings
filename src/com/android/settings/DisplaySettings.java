@@ -21,32 +21,33 @@ import static android.provider.Settings.System.SCREEN_OFF_TIMEOUT;
 import android.app.ActivityManagerNative;
 import android.app.Dialog;
 import android.app.admin.DevicePolicyManager;
-import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.hardware.display.DisplayManager;
-import android.hardware.display.WifiDisplay;
-import android.hardware.display.WifiDisplayStatus;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceScreen;
+import android.content.SharedPreferences;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
-import android.util.AttributeSet;
 import android.util.Log;
 
 import com.android.internal.view.RotationPolicy;
 import com.android.settings.DreamSettings;
 
 import java.util.ArrayList;
+import java.io.File;
+import java.io.IOException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 
 public class DisplaySettings extends SettingsPreferenceFragment implements
         Preference.OnPreferenceChangeListener, OnPreferenceClickListener {
@@ -60,11 +61,11 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
     private static final String KEY_FONT_SIZE = "font_size";
     private static final String KEY_NOTIFICATION_PULSE = "notification_pulse";
     private static final String KEY_SCREEN_SAVER = "screensaver";
-    private static final String KEY_WIFI_DISPLAY = "wifi_display";
 
+    private static final String KEY_VGA_RESOLUTION_VALUE = "vga_resolution";
+    private static final String KEY_HDMI_RESOLUTION_VALUE = "hdmi_resolution";
+    private static final String KEY_HDMI_CHECKBOX = "hdmi";
     private static final int DLG_GLOBAL_CHANGE_WARNING = 1;
-
-    private DisplayManager mDisplayManager;
 
     private CheckBoxPreference mAccelerometer;
     private WarnedListPreference mFontSizePref;
@@ -72,11 +73,27 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
 
     private final Configuration mCurConfig = new Configuration();
     
+    private CheckBoxPreference mHdmiCheckBox;
     private ListPreference mScreenTimeoutPreference;
+    private ListPreference mVgaResolutionPref;
+    private ListPreference mHdmiResolutionPref;
     private Preference mScreenSaverPreference;
+    private SharedPreferences mSharedPrefs;
 
-    private WifiDisplayStatus mWifiDisplayStatus;
-    private Preference mWifiDisplayPreference;
+    private File mVgaMode = null;
+    private File mHdmiMode = null;
+    private File mHdmiEnable = null;
+
+    private String[] vgaResolution = new String[] {
+	    "1920x1080p-60\n", "1680x1050p-60\n", "1440x900p-60\n", "1366x768p-60\n",
+	    "1280x1024p-60\n", "1280x720p-60\n",  "1024x768p-60\n"
+    };
+
+    private String[] hdmiResolution = new String[] {
+	    "1920x1080p-60\n", "1920x1080p-50\n", "1280x720p-60\n", "1280x720p-50\n",
+	    "720x576p-50\n", "720x480p-60\n"
+    };
+    private String[] hdmiCheck = new String[] {"1\n", "0\n"};
 
     private final RotationPolicy.RotationPolicyListener mRotationPolicyListener =
             new RotationPolicy.RotationPolicyListener() {
@@ -121,6 +138,22 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
         mFontSizePref = (WarnedListPreference) findPreference(KEY_FONT_SIZE);
         mFontSizePref.setOnPreferenceChangeListener(this);
         mFontSizePref.setOnPreferenceClickListener(this);
+
+
+	mHdmiCheckBox = (CheckBoxPreference) findPreference(KEY_HDMI_CHECKBOX);
+	mHdmiCheckBox.setPersistent(false);
+        mVgaResolutionPref = (ListPreference) findPreference(KEY_VGA_RESOLUTION_VALUE);
+        mVgaResolutionPref.setOnPreferenceChangeListener(this);
+        mVgaResolutionPref.setOnPreferenceClickListener(this);
+        mHdmiResolutionPref = (ListPreference) findPreference(KEY_HDMI_RESOLUTION_VALUE);
+        mHdmiResolutionPref.setOnPreferenceChangeListener(this);
+        mHdmiResolutionPref.setOnPreferenceClickListener(this);
+	mSharedPrefs = getPreferenceScreen().getSharedPreferences();
+
+	mVgaMode = new File("/sys/class/display/VGA/mode");
+	mHdmiMode = new File("/sys/class/display/HDMI/mode");
+	mHdmiEnable  = new File("/sys/class/display/HDMI/enable");
+
         mNotificationPulse = (CheckBoxPreference) findPreference(KEY_NOTIFICATION_PULSE);
         if (mNotificationPulse != null
                 && getResources().getBoolean(
@@ -134,16 +167,6 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
             } catch (SettingNotFoundException snfe) {
                 Log.e(TAG, Settings.System.NOTIFICATION_LIGHT_PULSE + " not found");
             }
-        }
-
-        mDisplayManager = (DisplayManager)getActivity().getSystemService(
-                Context.DISPLAY_SERVICE);
-        mWifiDisplayStatus = mDisplayManager.getWifiDisplayStatus();
-        mWifiDisplayPreference = (Preference)findPreference(KEY_WIFI_DISPLAY);
-        if (mWifiDisplayStatus.getFeatureState()
-                == WifiDisplayStatus.FEATURE_STATE_UNAVAILABLE) {
-            getPreferenceScreen().removePreference(mWifiDisplayPreference);
-            mWifiDisplayPreference = null;
         }
     }
 
@@ -252,12 +275,6 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
         RotationPolicy.registerRotationPolicyListener(getActivity(),
                 mRotationPolicyListener);
 
-        if (mWifiDisplayPreference != null) {
-            getActivity().registerReceiver(mReceiver, new IntentFilter(
-                    DisplayManager.ACTION_WIFI_DISPLAY_STATUS_CHANGED));
-            mWifiDisplayStatus = mDisplayManager.getWifiDisplayStatus();
-        }
-
         updateState();
     }
 
@@ -267,10 +284,6 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
 
         RotationPolicy.unregisterRotationPolicyListener(getActivity(),
                 mRotationPolicyListener);
-
-        if (mWifiDisplayPreference != null) {
-            getActivity().unregisterReceiver(mReceiver);
-        }
     }
 
     @Override
@@ -291,30 +304,12 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
         updateAccelerometerRotationCheckbox();
         readFontSizePreference(mFontSizePref);
         updateScreenSaverSummary();
-        updateWifiDisplaySummary();
     }
 
     private void updateScreenSaverSummary() {
         if (mScreenSaverPreference != null) {
             mScreenSaverPreference.setSummary(
                     DreamSettings.getSummaryTextWithDreamName(getActivity()));
-        }
-    }
-
-    private void updateWifiDisplaySummary() {
-        if (mWifiDisplayPreference != null) {
-            switch (mWifiDisplayStatus.getFeatureState()) {
-                case WifiDisplayStatus.FEATURE_STATE_OFF:
-                    mWifiDisplayPreference.setSummary(R.string.wifi_display_summary_off);
-                    break;
-                case WifiDisplayStatus.FEATURE_STATE_ON:
-                    mWifiDisplayPreference.setSummary(R.string.wifi_display_summary_on);
-                    break;
-                case WifiDisplayStatus.FEATURE_STATE_DISABLED:
-                default:
-                    mWifiDisplayPreference.setSummary(R.string.wifi_display_summary_disabled);
-                    break;
-            }
         }
     }
 
@@ -333,6 +328,27 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
         }
     }
 
+    public void writeResolutionValuePerference(File file, String[] resolution, int value) {
+	if (file.exists()) {
+	    try {
+		FileOutputStream fos = new FileOutputStream(file);
+		OutputStreamWriter outputWrite = new OutputStreamWriter(fos);
+		PrintWriter	 print = new PrintWriter(outputWrite);
+
+		print.print(resolution[value-1]);
+
+		Log.d(TAG, "writeResolutionValuePerference: " + "file=" + file.getAbsolutePath() + "value:" + resolution[value-1]);
+		print.flush();
+		fos.close();
+	    }catch (IOException e) {
+		e.printStackTrace();
+	    }
+	}else {
+		Log.d(TAG, "This device do not support vga output!");
+	}
+    }
+
+
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
         if (preference == mAccelerometer) {
@@ -343,14 +359,20 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
             Settings.System.putInt(getContentResolver(), Settings.System.NOTIFICATION_LIGHT_PULSE,
                     value ? 1 : 0);
             return true;
-        }
+        } else if (preference == mHdmiCheckBox) {
+	    boolean isChecked = mHdmiCheckBox.isChecked();
+	    Log.d(TAG, "click hdmi checkbox, isChecked:" + isChecked);
+	    writeResolutionValuePerference(mHdmiEnable, hdmiCheck, isChecked ? 1 : 2);
+	}
         return super.onPreferenceTreeClick(preferenceScreen, preference);
     }
 
+    @Override
     public boolean onPreferenceChange(Preference preference, Object objValue) {
         final String key = preference.getKey();
+		Log.d(TAG, "onPreferenceChange, key=" + key + ",value=" + Integer.parseInt((String) objValue));
+		int value = Integer.parseInt((String) objValue);
         if (KEY_SCREEN_TIMEOUT.equals(key)) {
-            int value = Integer.parseInt((String) objValue);
             try {
                 Settings.System.putInt(getContentResolver(), SCREEN_OFF_TIMEOUT, value);
                 updateTimeoutPreferenceDescription(value);
@@ -358,23 +380,21 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
                 Log.e(TAG, "could not persist screen timeout setting", e);
             }
         }
+
         if (KEY_FONT_SIZE.equals(key)) {
             writeFontSizePreference(objValue);
         }
 
+	if (KEY_VGA_RESOLUTION_VALUE.equals(key)) {
+	    writeResolutionValuePerference(mVgaMode, vgaResolution, value);
+	}
+
+	if (KEY_HDMI_RESOLUTION_VALUE.equals(key)) {
+	    writeResolutionValuePerference(mHdmiMode, hdmiResolution, value);
+	}
+
         return true;
     }
-
-    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(DisplayManager.ACTION_WIFI_DISPLAY_STATUS_CHANGED)) {
-                mWifiDisplayStatus = (WifiDisplayStatus)intent.getParcelableExtra(
-                        DisplayManager.EXTRA_WIFI_DISPLAY_STATUS);
-                updateWifiDisplaySummary();
-            }
-        }
-    };
 
     @Override
     public boolean onPreferenceClick(Preference preference) {

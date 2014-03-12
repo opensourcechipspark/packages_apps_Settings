@@ -67,6 +67,7 @@
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.REBOOT" />
     <uses-permission android:name="android.permission.MANAGE_DEVICE_ADMINS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application android:label="@string/settings_label"
             android:icon="@mipmap/ic_launcher_settings"
@@ -74,8 +75,9 @@
             android:theme="@style/Theme.Settings"
             android:hardwareAccelerated="true"
             android:requiredForAllUsers="true"
-            android:supportsRtl="true">
-
+            android:supportsRtl="true"
+			android:name=".Screenshot">
+   
         <!-- Settings -->
 
         <activity android:name="Settings"
@@ -590,7 +592,27 @@
                 android:value="com.android.settings.SoundSettings" />
             <meta-data android:name="com.android.settings.TOP_LEVEL_HEADER_ID"
                 android:resource="@id/sound_settings" />
-        </activity-alias>
+      </activity-alias>
+      <!--    <activity  android:name="Settings$ScreenshotSettingActivity"
+                   android:label="@string/screenshot_manager"
+                    android:taskAffinity=""
+					android:excludeFromRecents="true">
+			             <intent-filter>
+						  <action android:name="android.intent.action.MAIN" />
+		                 <category android:name="android.intent.category.DEFAULT" />
+                </intent-filter>		
+	              <meta-data android:name="com.android.settings.FRAGMENT_CLASS"
+	                   android:value="com.android.settings.ScreenshotSetting" />
+	                <meta-data android:name="com.android.settings.TOP_LEVEL_HEADER_ID"
+	                    android:resource="@id/screenshot_settings" />
+		          </activity>       -->
+				  
+				  
+	 <activity android:name=".ScreenshotSetting">
+	                          <intent-filter>
+				                    <action android:name="android.intent.action.MAIN" />
+				                </intent-filter>
+						 </activity> 					  	  
 
         <activity android:name="Settings$DisplaySettingsActivity"
                 android:label="@string/display_settings"
@@ -1343,7 +1365,6 @@
         </activity>
 
         <activity android:name="Settings$WifiDisplaySettingsActivity"
-                android:uiOptions="splitActionBarWhenNarrow"
                 android:label="@string/wifi_display_settings_title"
                 android:taskAffinity=""
                 android:excludeFromRecents="true">
@@ -1737,5 +1758,11 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+        <!--set HDMI scale value when system boot -->
+       <receiver android:name="HdmiReceiver">
+            <intent-filter>
+	        <action android:name="android.intent.action.HDMI_PLUG"/>
+            </intent-filter>
+       </receiver>
     </application>
 </manifest>

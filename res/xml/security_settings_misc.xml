@@ -98,4 +98,14 @@
                     android:targetClass="com.android.settings.CredentialStorage"/>
         </Preference>
     </PreferenceCategory>
+    
+    <PreferenceCategory android:key="userexperience_management"
+            android:title="@string/user_experience_category_title"
+            android:persistent="false">
+		<com.android.settings.WrappingSwitchPreference
+        	android:key="user_experience_switch"
+        	android:persistent="true"
+        	android:summary="@string/user_experience_summary"
+        	android:title="@string/user_experience_title" />
+    </PreferenceCategory>
 </PreferenceScreen>
