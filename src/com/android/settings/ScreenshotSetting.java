@@ -27,6 +27,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.TextView;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
+import android.os.SystemProperties;
 
 public class ScreenshotSetting extends SettingsPreferenceFragment implements OnPreferenceChangeListener{
 	 /** Called when the activity is first created. */
@@ -87,7 +88,16 @@ public class ScreenshotSetting extends SettingsPreferenceFragment implements OnP
 			String value=(String)newValue;
 			//mEdit.putString("storageLocation",value);
 			if(value.equals("flash")){
-				Settings.System.putString(getContentResolver(), Settings.System.SCREENSHOT_LOCATION, "/mnt/internal_sd");
+			String enableUms= SystemProperties.get("ro.factory.hasUMS","false");
+			if("true".equals(enableUms))//if has UMS function,flash is primary storage
+			{
+					Settings.System.putString(getContentResolver(), Settings.System.SCREENSHOT_LOCATION, "/mnt/internal_sd");
+			}
+			else
+			{
+					Settings.System.putString(getContentResolver(), Settings.System.SCREENSHOT_LOCATION, "/storage/emulated");
+			}
+
 				
 			}else if(value.equals("sdcard")){
 				Settings.System.putString(getContentResolver(), Settings.System.SCREENSHOT_LOCATION, "/mnt/external_sd");

@@ -352,7 +352,7 @@ public class WirelessSettings extends RestrictedSettingsFragment
             removePreference(KEY_SMS_APPLICATION);
         }
 		//add by xxh  revmoe KEY_MANAGE_MOBILE_PLAN when device is used as a MID 
-         if((SystemProperties.get("ril.function.dataonly")).equals("0")){
+         if((SystemProperties.get("ril.function.dataonly")).equals("1")){
 	        removePreference(KEY_SMS_APPLICATION);
 		    removePreference(KEY_MANAGE_MOBILE_PLAN);
         } 

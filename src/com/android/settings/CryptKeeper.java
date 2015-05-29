@@ -714,7 +714,8 @@ public class CryptKeeper extends Activity implements TextView.OnEditorActionList
     }
 
     private boolean isEmergencyCallCapable() {
-        return getResources().getBoolean(com.android.internal.R.bool.config_voice_capable);
+//        return getResources().getBoolean(com.android.internal.R.bool.config_voice_capable);
+		return SystemProperties.getBoolean("ro.voice.capable", false);
     }
 
     private void takeEmergencyCallAction() {

@@ -32,63 +32,67 @@ import android.os.Handler;
 import android.database.ContentObserver;
 public class HdmiControllerActivity extends SettingsPreferenceFragment implements OnPreferenceChangeListener {
     /** Called when the activity is first created. */
-	 private static final String TAG = "HdmiControllerActivity";
-	    private static final String KEY_HDMI_RESOLUTION = "hdmi_resolution";
-	    private static final String KEY_HDMI_MODE = "hdmi_mode";
-	    private static final String KEY_HDMI = "hdmi";
-	    private static final String KEY_HDCP = "HDCP_Setting";
+	private static final String TAG = "HdmiControllerActivity";
+	private static final String KEY_HDMI_RESOLUTION = "hdmi_resolution";
+	private static final String KEY_HDMI_MODE = "hdmi_mode";
+	private static final String KEY_HDMI = "hdmi";
+	private static final String KEY_HDCP = "HDCP_Setting";
         private static final String KEY_HDMI_LCD ="hdmi_lcd_timeout";
-	    //for identify the HdmiFile state
-	    private boolean IsHdmiConnect=false;
-	    //for identify the Hdmi connection state
-	    private boolean IsHdmiPlug = false;
-	    private boolean IsHdmiDisplayOn = false;
+	//for identify the HdmiFile state
+	private boolean IsHdmiConnect=false;
+	//for identify the Hdmi connection state
+	private boolean IsHdmiPlug = false;
+	private boolean IsHdmiDisplayOn = false;
 
-	    private CheckBoxPreference mHdmi;
-	    private CheckBoxPreference mHdcp;
-	    private ListPreference     mHdmiResolution;
-	    private ListPreference     mHdmiMode;
+	private CheckBoxPreference mHdmi;
+	private CheckBoxPreference mHdcp;
+	private ListPreference     mHdmiResolution;
+	private ListPreference     mHdmiMode;
         private ListPreference     mHdmiLcd;
 
 
-	    private File HdmiFile = null;
-	    private File HdmiState = null;
-	    private File HdmiDisplayEnable=null;
-	    private File HdmiDisplayMode=null;
-	    private File HdmiDisplayConnect=null;
+	private File HdmiFile = null;
+	private File HdmiState = null;
+	private File HdmiDisplayEnable=null;
+	private File HdmiDisplayMode=null;
+	private File HdmiDisplayConnect=null;
         private Context context;
         private static final int DEF_HDMI_LCD_TIMEOUT_VALUE = 10;
+
+	private SharedPreferences  sharedPreferences;
+	private SharedPreferences.Editor editor;
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	    super.onCreate(savedInstanceState);
 
-        context=getActivity();
-        if(!isDualMode()){
-           addPreferencesFromResource(R.xml.hdmi_settings);
-        }else{
-           addPreferencesFromResource(R.xml.hdmi_settings_timeout);
-           mHdmiLcd = (ListPreference)findPreference(KEY_HDMI_LCD);                
-           mHdmiLcd.setOnPreferenceChangeListener(this);
-           ContentResolver resolver = context.getContentResolver();
-           long lcdTimeout = -1;
-           if((lcdTimeout = Settings.System.getLong(resolver, Settings.System.HDMI_LCD_TIMEOUT,
-              DEF_HDMI_LCD_TIMEOUT_VALUE)) > 0)
-              {
-                   lcdTimeout/=10;
-              }
-           mHdmiLcd.setValue(String.valueOf(lcdTimeout));
-        }
-        HdmiFile = new File("/sys/class/hdmi/hdmi-0/enable");
+	    context=getActivity();
+	    if(!isDualMode()){
+		    addPreferencesFromResource(R.xml.hdmi_settings);
+	    }else{
+		    addPreferencesFromResource(R.xml.hdmi_settings_timeout);
+		    mHdmiLcd = (ListPreference)findPreference(KEY_HDMI_LCD);                
+		    mHdmiLcd.setOnPreferenceChangeListener(this);
+		    ContentResolver resolver = context.getContentResolver();
+		    long lcdTimeout = -1;
+		    if((lcdTimeout = Settings.System.getLong(resolver, Settings.System.HDMI_LCD_TIMEOUT,
+						    DEF_HDMI_LCD_TIMEOUT_VALUE)) > 0)
+		    {
+			    lcdTimeout/=10;
+		    }
+		    mHdmiLcd.setValue(String.valueOf(lcdTimeout));
+	    }
+	    HdmiFile = new File("/sys/class/hdmi/hdmi-0/enable");
 	    HdmiState = new File("/sys/class/hdmi/hdmi-0/state");
-        HdmiDisplayEnable=new File("/sys/class/display/HDMI/enable");
-        HdmiDisplayMode=new File("/sys/class/display/HDMI/mode");
-        HdmiDisplayConnect=new File("sys/class/display/HDMI/connect");
+	    HdmiDisplayEnable=new File("/sys/class/display/HDMI/enable");
+	    HdmiDisplayMode=new File("/sys/class/display/HDMI/mode");
+	    HdmiDisplayConnect=new File("sys/class/display/HDMI/connect");
 	    mHdmi = (CheckBoxPreference)findPreference(KEY_HDMI);
-		
+
 	    mHdmiResolution = (ListPreference)findPreference(KEY_HDMI_RESOLUTION);
-        mHdmiResolution.setOnPreferenceChangeListener(this);
+	    mHdmiResolution.setOnPreferenceChangeListener(this);
 		
-         
+	    sharedPreferences = getActivity().getSharedPreferences("HdmiSettings", Context.MODE_PRIVATE);
+	    editor = sharedPreferences.edit();
     }
 
    private ContentObserver mHdmiTimeoutSettingObserver = new ContentObserver(new Handler()) {
@@ -179,8 +183,6 @@ public class HdmiControllerActivity extends SettingsPreferenceFragment implement
 	if(SystemProperties.get("ro.board.platform","none").equals("rk29xx")){	
 	   if (file.exists()) {
 		try {
-		   SharedPreferences  sharedPreferences1 = getActivity().getSharedPreferences("HdmiSettings", Context.MODE_PRIVATE);
-		   SharedPreferences.Editor editor = sharedPreferences1.edit();
 		   String strDouble = "2";
 		   String strChecked = "1";
 		   String strUnChecked = "0";
@@ -210,7 +212,6 @@ public class HdmiControllerActivity extends SettingsPreferenceFragment implement
            if (file.exists()) {
 		try {
 		    Log.d(TAG,"setHdmiConfig");
-		    SharedPreferences.Editor editor = getActivity().getPreferences(0).edit();
 		    String strChecked = "1";
 		    String strUnChecked = "0";		
 		    RandomAccessFile rdf = null;
@@ -237,58 +238,34 @@ public class HdmiControllerActivity extends SettingsPreferenceFragment implement
     		Preference preference) {
     	// TODO Auto-generated method stub
     	if(SystemProperties.get("ro.board.platform","none").equals("rk29xx")){
-	        	SharedPreferences  mPreferences = getPreferenceScreen().getSharedPreferences();
-		        SharedPreferences  sharedPrefs = getActivity().getSharedPreferences("HdmiSettings", Context.MODE_PRIVATE);
-		        SharedPreferences.Editor  editor = sharedPrefs.edit();
-	                boolean isConnected = isHdmiConnected(HdmiState);
-	                int timeout = mPreferences.getInt("timeout", 30000);
-
-			if (preference == mHdmi) {
-				if (mHdmi.isChecked()) {
-						setHdmiConfig(HdmiFile, true);
-						mHdmi.setChecked(true);
-						// save config
-						editor.putInt("enable", 1);
-				} else {
-					setHdmiConfig(HdmiFile, false);
-					mHdmi.setChecked(false);
-					editor.putInt("enable", 0);
-
-			    }
-				editor.commit();
-			} else if (preference == mHdcp) {
-				String strHdcp = "hdmi_hdcp";
-				if (mHdcp.isChecked()) {
-					setHdmiOutputStyle(HdmiState, 1, strHdcp);
-					mHdcp.setChecked(false);// not open HDCP now
-				} else {
-					setHdmiOutputStyle(HdmiState, 0, strHdcp);
-					mHdcp.setChecked(false);
-				}
-			}
-	  }else{	
-        	SharedPreferences  mPreferences = getPreferenceScreen().getSharedPreferences();
-	        SharedPreferences  sharedPrefs = getActivity().getSharedPreferences("HdmiSettings", Context.MODE_PRIVATE);
-	        SharedPreferences.Editor  editor = sharedPrefs.edit();
-                boolean isConnected = isHdmiConnected(HdmiState);
-                int timeout = mPreferences.getInt("timeout", 30000);
-                Log.d(TAG, "onPreferenceThreeClick() ==>> isConnected=" + isConnected);
-
 		if (preference == mHdmi) {
 			if (mHdmi.isChecked()) {
- 
+				setHdmiConfig(HdmiFile, true);
+				mHdmi.setChecked(true);
+			} else {
+				setHdmiConfig(HdmiFile, false);
+				mHdmi.setChecked(false);
+
+			}
+		} else if (preference == mHdcp) {
+			String strHdcp = "hdmi_hdcp";
+			if (mHdcp.isChecked()) {
+				setHdmiOutputStyle(HdmiState, 1, strHdcp);
+				mHdcp.setChecked(false);// not open HDCP now
+			} else {
+				setHdmiOutputStyle(HdmiState, 0, strHdcp);
+				mHdcp.setChecked(false);
+			}
+		}
+	}else{	
+		if (preference == mHdmi) {
+			if (mHdmi.isChecked()) {
 				setHdmiConfig(HdmiDisplayEnable,true);
 				mHdmi.setChecked(true);
-				
 			} else {
 				setHdmiConfig(HdmiDisplayEnable, false);
 				mHdmi.setChecked(false);
-				editor.putInt("enable", 0);
-
-				int mFlag = mPreferences.getInt("mAccelerometer", 0);
-				if (mFlag != 0) {
 			}
-		    }
 			editor.commit();
 		} else if (preference == mHdcp) {
 			String strHdcp = "hdmi_hdcp";
@@ -300,9 +277,9 @@ public class HdmiControllerActivity extends SettingsPreferenceFragment implement
 				mHdcp.setChecked(false);
 			}
 		} 
-     }
-	 return true;
     }
+    return true;
+}
 
     private void setHdmiLcdTimeout(int value){
         if(value != -1){
@@ -318,8 +295,7 @@ public class HdmiControllerActivity extends SettingsPreferenceFragment implement
     public boolean onPreferenceChange(Preference preference, Object objValue) {
 		// TODO Auto-generated method stub
 	if(SystemProperties.get("ro.board.platform","none").equals("rk29xx")){
-		SharedPreferences.Editor editor = getActivity().getSharedPreferences("HdmiSettings", Context.MODE_PRIVATE).edit();
-		final String key = preference.getKey();
+	         String key = preference.getKey();
 		if (KEY_HDMI_RESOLUTION.equals(key)){		
 			
 		    try {
@@ -345,22 +321,9 @@ public class HdmiControllerActivity extends SettingsPreferenceFragment implement
 			
 		editor.commit();
 			
-		/*	if (KEY_HDMI_LCD.equals(key)){
-				try {
-					String strMode = "hdmi_display";
-					int value = Integer.parseInt((String) objValue);
-					//editor.putInt("enable", value);
-					setHdmiLcdTimeout(value);
-				} catch (NumberFormatException e){
-					Log.e(TAG, "onPreferenceChanged hdmi_mode setting error");
-				}
-			} */
-			
-			
 	}else{
 	       if (true){
-			SharedPreferences.Editor editor = getActivity().getPreferences(0).edit();
-			final String key = preference.getKey();
+			String key = preference.getKey();
 			if (KEY_HDMI_RESOLUTION.equals(key)){
 		            try {
 				String strResolution = "hdmi_resolution";
@@ -437,7 +400,6 @@ public class HdmiControllerActivity extends SettingsPreferenceFragment implement
 				StringBuffer	strbuf = new StringBuffer(""); 	
 				String			str = null;
 				String  		substr = null;
-				SharedPreferences.Editor editor = getActivity().getSharedPreferences("HdmiSettings", Context.MODE_PRIVATE).edit();
 				if (string.equals("hdmi_resolution")){		
 					substr = "resolution";
 					if(style == 6)

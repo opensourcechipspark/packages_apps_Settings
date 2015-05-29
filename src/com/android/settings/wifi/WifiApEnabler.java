@@ -49,6 +49,7 @@ public class WifiApEnabler {
 
     ConnectivityManager mCm;
     private String[] mWifiRegexs;
+    private int wifiSavedState = 0;
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -101,6 +102,16 @@ public class WifiApEnabler {
         boolean isAirplaneMode = Settings.Global.getInt(mContext.getContentResolver(),
                 Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
         if(!isAirplaneMode) {
+            //try {
+            //    Thread.sleep(500);
+            //} catch (InterruptedException e) {}
+            if (wifiSavedState == 1) {
+                wifiSavedState = 0;
+                // (gwl) delay 3000 ms to fix hotspot error
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {}
+            }
             mCheckBox.setEnabled(true);
         } else {
             mCheckBox.setSummary(mOriginalSummary);
@@ -131,7 +142,8 @@ public class WifiApEnabler {
          *  If needed, restore Wifi on tether disable
          */
         if (!enable) {
-            int wifiSavedState = 0;
+            //int wifiSavedState = 0;
+            wifiSavedState = 0;
             try {
                 wifiSavedState = Settings.Global.getInt(cr, Settings.Global.WIFI_SAVED_STATE);
             } catch (Settings.SettingNotFoundException e) {

@@ -30,10 +30,8 @@ import android.os.RemoteException;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
-import android.preference.PreferenceManager;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceScreen;
-import android.content.SharedPreferences;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
 import android.util.Log;
@@ -43,12 +41,23 @@ import com.android.settings.DreamSettings;
 
 import java.util.ArrayList;
 import java.io.File;
-import java.io.IOException;
 import java.io.FileOutputStream;
-import java.io.OutputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
 import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
+import java.io.BufferedReader;
+import java.io.StringReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Scanner;
+import java.util.LinkedList;
+import android.os.SystemProperties;
 
+import android.widget.Toast;
+import android.os.PowerManager;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 public class DisplaySettings extends SettingsPreferenceFragment implements
         Preference.OnPreferenceChangeListener, OnPreferenceClickListener {
     private static final String TAG = "DisplaySettings";
@@ -62,9 +71,6 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
     private static final String KEY_NOTIFICATION_PULSE = "notification_pulse";
     private static final String KEY_SCREEN_SAVER = "screensaver";
 
-    private static final String KEY_VGA_RESOLUTION_VALUE = "vga_resolution";
-    private static final String KEY_HDMI_RESOLUTION_VALUE = "hdmi_resolution";
-    private static final String KEY_HDMI_CHECKBOX = "hdmi";
     private static final int DLG_GLOBAL_CHANGE_WARNING = 1;
 
     private CheckBoxPreference mAccelerometer;
@@ -73,27 +79,151 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
 
     private final Configuration mCurConfig = new Configuration();
     
-    private CheckBoxPreference mHdmiCheckBox;
     private ListPreference mScreenTimeoutPreference;
-    private ListPreference mVgaResolutionPref;
-    private ListPreference mHdmiResolutionPref;
     private Preference mScreenSaverPreference;
-    private SharedPreferences mSharedPrefs;
 
-    private File mVgaMode = null;
-    private File mHdmiMode = null;
-    private File mHdmiEnable = null;
+//add lly@rock-chips.com
+    private static final String KEY_RESOLUTION = "resolution";
+    private ListPreference mResolutionPreference;
+    private int mCurrentResolution = 1 ;
+    private String mRequestResolution = "";
+    private LinkedList<String> mResolutionDpis = new LinkedList<String>();
+    private LinkedList<String> mResolutionEntries = new LinkedList<String>();
+    private LinkedList<String> mResolutionEntryValues = new LinkedList<String>();
+    
+    private static final String DUMPSYS_DATA_PATH = "/data/system/";
+    private static final String STORE_RESOLUTION_PATH = "storeresolution";
 
-    private String[] vgaResolution = new String[] {
-	    "1920x1080p-60\n", "1680x1050p-60\n", "1440x900p-60\n", "1366x768p-60\n",
-	    "1280x1024p-60\n", "1280x720p-60\n",  "1024x768p-60\n"
-    };
+       private boolean applyResolution() {
+        // String[] cmd = { "sh", "-c", "echo " + mRequestResolution + " > " +
+        // RESOLUTION_FILE };
+        /*
+         * String cmd = "flash_store " + mRequestResolution; Process ps =
+         * Runtime.getRuntime().exec(cmd); Log.d(TAG,"====================CMD "+
+         * cmd);
+         */
+        File storeFile = null;
+        FileOutputStream outFileStream = null;
+        BufferedOutputStream buffstream = null;
+        try {
+            storeFile = new File(DUMPSYS_DATA_PATH + STORE_RESOLUTION_PATH + ".bin");
+            if (!storeFile.exists()) {
+                storeFile.createNewFile();
+            }
+            outFileStream = new FileOutputStream(storeFile);
+            buffstream = new BufferedOutputStream(outFileStream);
 
-    private String[] hdmiResolution = new String[] {
-	    "1920x1080p-60\n", "1920x1080p-50\n", "1280x720p-60\n", "1280x720p-50\n",
-	    "720x576p-50\n", "720x480p-60\n"
-    };
-    private String[] hdmiCheck = new String[] {"1\n", "0\n"};
+            buffstream.write(mRequestResolution.getBytes());
+
+            buffstream.flush();
+        } catch (Exception e) {
+           
+            e.printStackTrace();
+            return false;
+        } finally {
+            if (outFileStream != null) {
+                try {
+                    outFileStream.close();
+                } catch (IOException e) {
+                    Log.e(TAG, "failed to close dumpsys output stream");
+                }
+            }
+            if (buffstream != null) {
+                try {
+                    buffstream.close();
+                } catch (IOException e) {
+                    Log.e(TAG, "failed to close dumpsys output stream");
+                }
+            }
+        }
+        return true;
+    }
+    private void updateResolution() {
+        mCurrentResolution = 0;
+        mResolutionEntryValues.clear();
+        mResolutionEntries.clear();
+        mResolutionDpis.clear();
+
+        mResolutionDpis.add("240");
+        mResolutionDpis.add("320");             
+
+        mResolutionEntries.add("1600x1200");
+        mResolutionEntries.add("2048x1536");
+        mResolutionEntryValues.add("0");
+        mResolutionEntryValues.add("1");
+	Log.d(TAG, "current resolution:" + mCurrentResolution);
+	Log.d(TAG, "mRequestResolution resolution:" + mRequestResolution);
+	Log.d(TAG, "entries:" + mResolutionEntries);
+	Log.d(TAG, "values:" + mResolutionEntryValues);
+	Log.d(TAG, "dpis:" + mResolutionDpis);
+        FileInputStream input = null;
+        File filename = new File(DUMPSYS_DATA_PATH + STORE_RESOLUTION_PATH + ".bin");
+        if(filename.exists()) {
+        
+          try {
+             input = new FileInputStream(filename);
+             byte[] buffer = new byte[(int) filename.length()];
+             input.read(buffer);
+              mCurrentResolution = Integer.parseInt(new String(buffer));
+           } catch (IOException e) {
+              Log.w(TAG, "Can't read service dump: " , e);
+           } finally {
+                 if (input != null)
+                  try { 
+                       input.close();
+                   } catch (IOException e) {}
+
+           }
+	}else{
+          mCurrentResolution = 1;
+        }
+      //  mResolutionPreference.setEntries(mResolutionEntries.toArray(new CharSequence[mResolutionEntries.size()]));
+        mResolutionPreference.setEntryValues(mResolutionEntryValues.toArray(new CharSequence[mResolutionEntryValues.size()]));
+        mResolutionPreference.setValueIndex(mCurrentResolution);
+        //mResolutionPreference.setSummary(String.format(getResources().getString(R.string.summary_resolution), mResolutionEntries.get(mCurrentResolution)));
+        mResolutionPreference.setSummary(String.format(getResources().getString(R.string.summary_resolution), mResolutionPreference.getEntry()));
+
+    }
+    private static final int DLG_CONFIRM_REBOOT = 2;
+    private void showRebootDialog() {
+        removeDialog(DLG_CONFIRM_REBOOT);
+        showDialog(DLG_CONFIRM_REBOOT);
+    }
+    @Override
+    public Dialog onCreateDialog(int id) {
+        switch (id) {
+        case DLG_CONFIRM_REBOOT:
+                return new AlertDialog.Builder(getActivity())
+                    .setTitle(R.string.dlg_confirm_reboot_title)
+                    .setPositiveButton(R.string.dlg_ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            if(!applyResolution()) {
+                                Toast.makeText(getActivity(),
+                                    R.string.set_resolution_failed_message,
+                                    Toast.LENGTH_SHORT).show();
+                            } else {
+                                updateResolution();
+                                SystemProperties.set("persist.sys.lcd_density", 
+                                    mResolutionDpis.get(mResolutionEntryValues.indexOf(mRequestResolution)));
+                                PowerManager pm = (PowerManager) mResolutionPreference.getContext().getSystemService(Context.POWER_SERVICE);
+                                pm.reboot("resolution");
+                            }
+                        }})
+                    .setNegativeButton(R.string.cancel, null)
+                    .setMessage(R.string.dlg_confirm_reboot_text)
+                    .create();
+        case DLG_GLOBAL_CHANGE_WARNING:
+            return Utils.buildGlobalChangeWarningDialog(getActivity(),
+                    R.string.global_font_change_title,
+                    new Runnable() {
+                        public void run() {
+                            mFontSizePref.click();
+                        }
+                    });
+        
+        }
+        return super.onCreateDialog(id);
+    }
 
     private final RotationPolicy.RotationPolicyListener mRotationPolicyListener =
             new RotationPolicy.RotationPolicyListener() {
@@ -138,22 +268,6 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
         mFontSizePref = (WarnedListPreference) findPreference(KEY_FONT_SIZE);
         mFontSizePref.setOnPreferenceChangeListener(this);
         mFontSizePref.setOnPreferenceClickListener(this);
-
-
-	mHdmiCheckBox = (CheckBoxPreference) findPreference(KEY_HDMI_CHECKBOX);
-	mHdmiCheckBox.setPersistent(false);
-        mVgaResolutionPref = (ListPreference) findPreference(KEY_VGA_RESOLUTION_VALUE);
-        mVgaResolutionPref.setOnPreferenceChangeListener(this);
-        mVgaResolutionPref.setOnPreferenceClickListener(this);
-        mHdmiResolutionPref = (ListPreference) findPreference(KEY_HDMI_RESOLUTION_VALUE);
-        mHdmiResolutionPref.setOnPreferenceChangeListener(this);
-        mHdmiResolutionPref.setOnPreferenceClickListener(this);
-	mSharedPrefs = getPreferenceScreen().getSharedPreferences();
-
-	mVgaMode = new File("/sys/class/display/VGA/mode");
-	mHdmiMode = new File("/sys/class/display/HDMI/mode");
-	mHdmiEnable  = new File("/sys/class/display/HDMI/enable");
-
         mNotificationPulse = (CheckBoxPreference) findPreference(KEY_NOTIFICATION_PULSE);
         if (mNotificationPulse != null
                 && getResources().getBoolean(
@@ -168,6 +282,20 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
                 Log.e(TAG, Settings.System.NOTIFICATION_LIGHT_PULSE + " not found");
             }
         }
+
+       boolean isChange ="true".equals(SystemProperties.get("sys.resolution.changed", "false"));
+       mResolutionPreference = (ListPreference) findPreference(KEY_RESOLUTION);
+       if(isChange){
+      
+       mResolutionPreference.setOnPreferenceChangeListener(this);
+       updateResolution();
+     }else{
+          getPreferenceScreen().removePreference(mResolutionPreference);
+      }
+      String chipType = SystemProperties.get("ro.rk.soc", null);
+      if (!chipType.contains("rk312")){
+    	  getPreferenceScreen().removePreference(findPreference("display_switch"));
+      }
     }
 
     private void updateTimeoutPreferenceDescription(long currentTimeout) {
@@ -285,7 +413,7 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
         RotationPolicy.unregisterRotationPolicyListener(getActivity(),
                 mRotationPolicyListener);
     }
-
+/*
     @Override
     public Dialog onCreateDialog(int dialogId) {
         if (dialogId == DLG_GLOBAL_CHANGE_WARNING) {
@@ -299,7 +427,7 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
         }
         return null;
     }
-
+*/
     private void updateState() {
         updateAccelerometerRotationCheckbox();
         readFontSizePreference(mFontSizePref);
@@ -328,27 +456,6 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
         }
     }
 
-    public void writeResolutionValuePerference(File file, String[] resolution, int value) {
-	if (file.exists()) {
-	    try {
-		FileOutputStream fos = new FileOutputStream(file);
-		OutputStreamWriter outputWrite = new OutputStreamWriter(fos);
-		PrintWriter	 print = new PrintWriter(outputWrite);
-
-		print.print(resolution[value-1]);
-
-		Log.d(TAG, "writeResolutionValuePerference: " + "file=" + file.getAbsolutePath() + "value:" + resolution[value-1]);
-		print.flush();
-		fos.close();
-	    }catch (IOException e) {
-		e.printStackTrace();
-	    }
-	}else {
-		Log.d(TAG, "This device do not support vga output!");
-	}
-    }
-
-
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
         if (preference == mAccelerometer) {
@@ -359,20 +466,15 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
             Settings.System.putInt(getContentResolver(), Settings.System.NOTIFICATION_LIGHT_PULSE,
                     value ? 1 : 0);
             return true;
-        } else if (preference == mHdmiCheckBox) {
-	    boolean isChecked = mHdmiCheckBox.isChecked();
-	    Log.d(TAG, "click hdmi checkbox, isChecked:" + isChecked);
-	    writeResolutionValuePerference(mHdmiEnable, hdmiCheck, isChecked ? 1 : 2);
-	}
+        }
         return super.onPreferenceTreeClick(preferenceScreen, preference);
     }
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object objValue) {
         final String key = preference.getKey();
-		Log.d(TAG, "onPreferenceChange, key=" + key + ",value=" + Integer.parseInt((String) objValue));
-		int value = Integer.parseInt((String) objValue);
         if (KEY_SCREEN_TIMEOUT.equals(key)) {
+            int value = Integer.parseInt((String) objValue);
             try {
                 Settings.System.putInt(getContentResolver(), SCREEN_OFF_TIMEOUT, value);
                 updateTimeoutPreferenceDescription(value);
@@ -380,19 +482,16 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
                 Log.e(TAG, "could not persist screen timeout setting", e);
             }
         }
-
         if (KEY_FONT_SIZE.equals(key)) {
             writeFontSizePreference(objValue);
         }
-
-	if (KEY_VGA_RESOLUTION_VALUE.equals(key)) {
-	    writeResolutionValuePerference(mVgaMode, vgaResolution, value);
-	}
-
-	if (KEY_HDMI_RESOLUTION_VALUE.equals(key)) {
-	    writeResolutionValuePerference(mHdmiMode, hdmiResolution, value);
-	}
-
+         if (KEY_RESOLUTION.equals(key)) {
+            mRequestResolution = objValue.toString();
+            if(mCurrentResolution != mResolutionEntryValues.indexOf(mRequestResolution)) {
+                showRebootDialog();
+            }
+            return false;
+        }
         return true;
     }
 

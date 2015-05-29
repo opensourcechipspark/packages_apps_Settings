@@ -1134,7 +1134,7 @@
     <!-- Bluetooth settings. Title of the advanced bluetooth settings screen [CHAR LIMIT=30]-->
     <string name="bluetooth_advanced_titlebar">Advanced Bluetooth</string>
     <!-- Bluetooth settings. Text displayed when Bluetooth is off and device list is empty [CHAR LIMIT=50]-->
-    <string name="bluetooth_empty_list_bluetooth_off">To see devices, turn Bluetooth on.</string>
+    <string name="bluetooth_empty_list_bluetooth_off">When Bluetooth is turned on, your device can communicate with other nearby Bluetooth devices.</string>
 
 
     <!-- Bluetooth settings.  The title of the screen to pick which profiles to connect to on the device.  For example, headphones may have both A2DP and headset, this allows the user to choose which one he wants to connect to. -->
@@ -1767,10 +1767,6 @@
     <!-- Sound settings screen, setting check box label -->
     <string name="haptic_feedback_enable_title">Vibrate on touch</string>
     <!-- Sound settings screen, setting option name checkbox to enable/disable audio recording features that improve audio recording in noisy environments -->
-    <string name="audio_spdif_output_enable_title">SPDIF</string>
-    <!-- Sound settings screen, setting option name checkbox to enable/disable audio recording features that improve audio recording in noisy environments -->
-    <string name="audio_spdif_output_enable_summary">Audio output from the dock</string>
-    <string name="audio_spdif_output_category_title">OUTPUT</string>
     <string name="audio_record_proc_title">Noise cancellation</string>
     <!-- Volume description for media volume -->
     <string name="volume_media_description">Music, video, games, &amp; other media</string>
@@ -2154,6 +2150,12 @@
 	<string name="usb_mass_summary">Use Mass Storage to share files</string>
     <!-- Storage setting.  Summary for PTP checkbox [CHAR LIMIT=NONE]-->
     <string name="usb_label_installer_cd">"Install file-transfer tools"</string>
+    
+    <!-- Storage setting. Title for CDROM mode-->
+    <string name="usb_cdrom_title">Installer (CDROM)</string>
+
+    <!-- Storage setting. Summary for CDROM mode-->
+    <string name="usb_cdrom_summary">Installer Mode to autorun driver</string>
 
     <!-- Section header above list of other users storage [CHAR LIMIT=32] -->
     <string name="storage_other_users">Other users</string>
@@ -2388,7 +2390,7 @@
     <!-- SMS Application [CHAR LIMIT=35]-->
     <string name="sms_application_title" translatable="true">Default SMS app</string>
     <string name="sms_change_default_dialog_title" translatable="true">Change SMS app?</string>
-    <string name="sms_change_default_dialog_text" translatable="true">Use <xliff:g id="new_app">%s</xliff:g> instead of <xliff:g id="current_app">%s</xliff:g> as your SMS app?</string>
+    <string name="sms_change_default_dialog_text" translatable="true">Use <xliff:g id="new_app">%1$s</xliff:g> instead of <xliff:g id="current_app">%2$s</xliff:g> as your SMS app?</string>
     <string name="sms_change_default_no_previous_dialog_text" translatable="true">Use <xliff:g id="new_app">%s</xliff:g> as your SMS app?</string>
 
     <!-- The SIM operator is not known [CHAR_ LIMIT=50]-->
@@ -3338,6 +3340,8 @@
     <string name="captioning_background_opacity">Background opacity</string>
     <!-- Title for the preference to change video caption text color. [CHAR LIMIT=35] -->
     <string name="captioning_foreground_color">Text color</string>
+    <!-- Title for the preference to change video caption text opacity. [CHAR LIMIT=35] -->
+    <string name="captioning_foreground_opacity">Text opacity</string>
     <!-- Title for the preference to change video caption edge color. [CHAR LIMIT=35] -->
     <string name="captioning_edge_color">Edge color</string>
     <!-- Title for the preference to change video caption edge type. [CHAR LIMIT=35] -->
@@ -4911,18 +4915,10 @@
     <!-- Text to display in regulatory info screen (from device overlay). -->
     <string name="regulatory_info_text"></string>
     <string name="hdmi_screen_zoom">Screen Zoom</string>
-	<string name="hdmi_title">Turn on HDMI</string>
+	 <string name="hdmi_title">Turn on HDMI</string>
 	<string name="hdmi_resolution_title">HDMI Resolution</string>
 	<string name="hdmi_lcd_timeout">Screen Timeout</string>
 	<string name="hdmi_settings">Hdmi</string>
-	<string name="hdmi_settings_summary">configure hdmi setting for tv-output</string>
-
-	<!-- vga settings -->
-	<string name="vga_title">Turn on VGA</string>
-	<string name="vga_resolution_title">VGA Resolution</string>
-	<string name="vga_settings">VGA</string>
-	<string name="vga_settings_summary">configure VGA setting for vga-output</string>
-	<string name="vga_settings_resolution_summary">You can select a proper resolution for your device VGA-output</string>
 
        <!--screenshot setting -->
 	 <string name="app_name">ScreenshotManager</string>
@@ -5009,4 +5005,23 @@
         <string name="user_experience_category_title">"User Experience Program"</string>
         <string name="user_experience_title">"User Experience Program"</string>
         <string name="user_experience_summary">"Help manufacturer improve its product and service by sending diagnostic and usage data."</string>
+
+        <string name="hdmi_connect">HDMI is connected.</string>
+        <string name="hdmi_disconnect">HDMI is disconnected.</string>
+
+		 <string name="title_resolution">Display mode</string>
+		 <string name="summary_resolution" translatable="false">%1$s</string>
+		 <string name="dialog_title_resolution">Display mode</string>
+		 <string name="set_resolution_failed_message">Failed to change display mode.</string>
+		 <string name="dlg_confirm_reboot_title">Reboot</string>
+		 <string name="dlg_confirm_reboot_text">System will reboot to change display mode.</string>
+		 
+		 <string name="soft_text">soft</string>
+		 <string name="standard_text">standard</string>
+		 <string name="dynamic_text">dynamic</string>
+		 <string name="pick_image">pick image</string>
+		 <string name="restore_image">restore default image</string>
+		 <string name="display_switch_key">Screen mode</string>
+		 <string name="display_switch_summary">Choose screen mode</string>
+		 
 </resources>

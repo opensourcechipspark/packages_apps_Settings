@@ -775,6 +775,10 @@ public class WifiSettings extends RestrictedSettingsFragment
         final List<WifiConfiguration> configs = mWifiManager.getConfiguredNetworks();
         if (configs != null) {
             for (WifiConfiguration config : configs) {
+                if (config.SSID != null && config.SSID.startsWith("\"DIRECT-")) {
+                    //Log.e(TAG, "ignore wifi direct goup: " + config.SSID);
+                    continue;
+                }
                 AccessPoint accessPoint = new AccessPoint(getActivity(), config);
                 accessPoint.update(mLastInfo, mLastState);
                 accessPoints.add(accessPoint);

@@ -24,6 +24,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.view.WindowManager;
 
 class WifiDialog extends AlertDialog implements WifiConfigUiBase {
     static final int BUTTON_SUBMIT = DialogInterface.BUTTON_POSITIVE;
@@ -59,6 +60,8 @@ class WifiDialog extends AlertDialog implements WifiConfigUiBase {
         /* During creation, the submit button can be unavailable to determine
          * visibility. Right after creation, update button visibility */
         mController.enableSubmitIfAppropriate();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     }
 
     @Override

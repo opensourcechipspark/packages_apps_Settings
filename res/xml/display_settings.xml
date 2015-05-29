@@ -18,41 +18,7 @@
         android:title="@string/display_settings"
         xmlns:settings="http://schemas.android.com/apk/res/com.android.settings">
 
-		<PreferenceScreen
-			android:title="@string/hdmi_settings"
-			android:summary="@string/hdmi_settings_summary">
-			<CheckBoxPreference
-			android:key="hdmi"
-			android:title="@string/hdmi_title"
-			android:defaultValue="true"/>
-
-			<ListPreference
-			android:key="hdmi_resolution"
-			android:title="@string/hdmi_resolution_title"
-			android:persistent="true"
-			android:dependency="hdmi"
-			android:entries="@array/hdmi_resolution_entries"
-			android:entryValues="@array/hdmi_resolution_values"
-			/>
-
-			<com.android.settings.HdmiScreenZoomPreference
-			android:key="hdmi_screen_zoom"
-			android:title="@string/hdmi_screen_zoom"
-			android:dependency="hdmi"
-			android:dialogTitle="@string/hdmi_screen_zoom"/>
-		</PreferenceScreen>
-
-		<ListPreference
-			android:key="vga_resolution"
-			android:title="@string/vga_resolution_title"
-			android:persistent="true"
-			android:dependency="hdmi"
-			android:entries="@array/vga_resolution_entries"
-			android:entryValues="@array/vga_resolution_values"
-			android:summary="@string/vga_settings_resolution_summary"
-			/>
-
-		<com.android.settings.BrightnessPreference
+        <com.android.settings.BrightnessPreference
                 android:title="@string/brightness"
                 android:persistent="false"/>
 
@@ -95,5 +61,19 @@
                 android:key="wifi_display"
                 android:title="@string/wifi_display_settings_title"
                 android:fragment="com.android.settings.wfd.WifiDisplaySettings" />
-
+          <ListPreference
+                android:key="resolution"
+                android:title="@string/title_resolution"
+                android:summary="@string/summary_resolution"
+                android:entries="@array/entries_resolution"
+                android:entryValues="@array/entryvalues_resolution"
+                android:dialogTitle="@string/dialog_title_resolution" />
+          
+       <PreferenceScreen android:key="display_switch"
+                android:title="@string/display_switch_key" 
+                android:summary="@string/display_switch_summary">
+             <intent android:action="android.intent.action.MAIN"
+                     android:targetPackage="com.android.settings"
+                     android:targetClass="com.android.settings.DisplaySwitch" />
+       </PreferenceScreen>
 </PreferenceScreen>

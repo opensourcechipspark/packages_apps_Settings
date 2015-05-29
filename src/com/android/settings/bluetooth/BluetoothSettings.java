@@ -27,6 +27,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.SystemProperties;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
@@ -255,7 +256,8 @@ public final class BluetoothSettings extends DeviceListPreferenceFragment {
                     mMyDevicePreference = new Preference(getActivity());
                 }
                 mMyDevicePreference.setTitle(mLocalAdapter.getName());
-                if (getResources().getBoolean(com.android.internal.R.bool.config_voice_capable)) {
+//                if (getResources().getBoolean(com.android.internal.R.bool.config_voice_capable)) {
+				if (SystemProperties.getBoolean("ro.voice.capable", false)){
                     mMyDevicePreference.setIcon(R.drawable.ic_bt_cellphone);    // for phones
                 } else {
                     mMyDevicePreference.setIcon(R.drawable.ic_bt_laptop);   // for tablets, etc.

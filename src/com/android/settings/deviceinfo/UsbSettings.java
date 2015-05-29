@@ -45,12 +45,14 @@ public class UsbSettings extends SettingsPreferenceFragment {
     private static final String KEY_MTP = "usb_mtp";
     private static final String KEY_PTP = "usb_ptp";
 	private static final String KEY_MASS = "usb_mass";
+    private static final String KEY_CDROM = "usb_cdrom";
 
     private UsbManager mUsbManager;
     private CheckBoxPreference mMtp;
     private CheckBoxPreference mPtp;
     private boolean mUsbAccessoryMode;
-private CheckBoxPreference mMass;
+    private CheckBoxPreference mMass;
+    private CheckBoxPreference mCDrom;
     private String BuildWithUMS ="";
 	private IMountService mMountService;
     private final BroadcastReceiver mStateReceiver = new BroadcastReceiver() {
@@ -82,29 +84,31 @@ private CheckBoxPreference mMass;
         }
 
         mMass= (CheckBoxPreference)root.findPreference(KEY_MASS);
-	BuildWithUMS = SystemProperties.get("ro.factory.hasUMS", "false");
-	if(("true".equals(BuildWithUMS))&&(mMountService!=null))
-	{
-		try
-		{
-			String flashPratition = System.getenv("EXTERNAL_STORAGE_FLASH");
-			String flashState =mMountService.getVolumeState(flashPratition);
-			if(!"mounted".equals(flashState) && !"shared".equals(flashState))
-			{
-				BuildWithUMS = "false";
-				Log.d(TAG,"boardconfig set enable UMS,but flash partition is not mounted,disable UMS");
-			}
-		}
-		catch(Exception e)
-		{
+        mCDrom= (CheckBoxPreference)root.findPreference(KEY_CDROM);
+	    BuildWithUMS = SystemProperties.get("ro.factory.hasUMS", "false");
+	    if(("true".equals(BuildWithUMS))&&(mMountService!=null))
+	    {
+		    try
+		    {
+			    String flashPratition = System.getenv("EXTERNAL_STORAGE_FLASH");
+			    String flashState =mMountService.getVolumeState(flashPratition);
+			    if(!"mounted".equals(flashState) && !"shared".equals(flashState))
+			    {
+				    BuildWithUMS = "false";
+				    Log.d(TAG,"boardconfig set enable UMS,but flash partition is not mounted,disable UMS");
+			    }
+		    }
+		    catch(Exception e)
+		    {
 
-		}
-		
-		
-	}
-	if("false".equals(BuildWithUMS)){
-		root.removePreference(root.findPreference(KEY_MASS));
-   }
+		    }
+	    }
+	    if(!"true".equals(BuildWithUMS)){
+		    root.removePreference(root.findPreference(KEY_MASS));
+        }
+        if(!"cdrom".equals(BuildWithUMS)){
+            root.removePreference(root.findPreference(KEY_CDROM));
+        }
         return root;
     }
 
@@ -145,23 +149,27 @@ private CheckBoxPreference mMass;
         if (UsbManager.USB_FUNCTION_MTP.equals(function)) {
             mMtp.setChecked(true);
             mPtp.setChecked(false);
-	    if("true".equals(BuildWithUMS))
+	    if("true".equals(BuildWithUMS) || "cdrom".equals(BuildWithUMS))
 	    	mMass.setChecked(false);
+            mCDrom.setChecked(false);
         } else if (UsbManager.USB_FUNCTION_PTP.equals(function)) {
             mMtp.setChecked(false);
             mPtp.setChecked(true);
-	    if("true".equals(BuildWithUMS))
+	    if("true".equals(BuildWithUMS) || "cdrom".equals(BuildWithUMS)) 
 	    	mMass.setChecked(false);
+            mCDrom.setChecked(false);
         }  else if (UsbManager.USB_FUNCTION_MASS_STORAGE.equals(function)) {
             mMtp.setChecked(false);
             mPtp.setChecked(false);
-	    if("true".equals(BuildWithUMS))
+	    if("true".equals(BuildWithUMS) || "cdrom".equals(BuildWithUMS))
 	    	mMass.setChecked(true);
+            mCDrom.setChecked(true);
         } else  {
             mMtp.setChecked(false);            
 	    mPtp.setChecked(false);
-	    if("true".equals(BuildWithUMS))
+	    if("true".equals(BuildWithUMS) || "cdrom".equals(BuildWithUMS))
 	    	mMass.setChecked(true);
+            mCDrom.setChecked(true);
         }
         UserManager um = (UserManager) getActivity().getSystemService(Context.USER_SERVICE);
         if (um.hasUserRestriction(UserManager.DISALLOW_USB_FILE_TRANSFER)) {
@@ -200,7 +208,7 @@ private CheckBoxPreference mMass;
             function = UsbManager.USB_FUNCTION_MTP;
         } else if (preference == mPtp && mPtp.isChecked()) {
             function = UsbManager.USB_FUNCTION_PTP;
-        } else if (preference == mMass) {
+        } else if (preference == mMass || preference == mCDrom) {
             function = UsbManager.USB_FUNCTION_MASS_STORAGE;
         }
 

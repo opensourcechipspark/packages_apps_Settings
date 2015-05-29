@@ -227,7 +227,7 @@ public class EthernetSettings extends SettingsPreferenceFragment {
 		mEthGateway = nullIpInfo;        		
 		mEthdns1 = nullIpInfo;      		
 		mEthdns2 = nullIpInfo;    
-		mEthmac = "00.00.00.00.00.00";  		
+		//mEthmac = "00.00.00.00.00.00";
 	}
 
 	private boolean isUsingStaticIp() {

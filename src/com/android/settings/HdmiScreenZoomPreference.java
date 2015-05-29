@@ -69,6 +69,7 @@ public class HdmiScreenZoomPreference extends SeekBarDialogPreference implements
     private boolean mFlag  = false;
 	//for save hdmi config
     private	Context	context;
+    private final File HdmiState = new File("sys/class/display/HDMI/connect");
 
     public HdmiScreenZoomPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -139,12 +140,41 @@ public class HdmiScreenZoomPreference extends SeekBarDialogPreference implements
 	}else{
 			Log.e(TAG, "File:" + file + "not exists");
 	}
+	if(!isHdmiConnected(HdmiState)){
+		return;
+	}
 	if(getFBDualDisplayMode() == 1){
 		SystemProperties.set("sys.hdmi_screen.scale",String.valueOf((char)value));
 	}else{
 		SystemProperties.set("sys.hdmi_screen.scale",String.valueOf((char)100));
 	}
     }
+
+    private  boolean isHdmiConnected(File file){
+	    boolean isConnected = false;
+	    if (file.exists()){
+		    try {
+			    FileReader fread = new FileReader(file);
+			    BufferedReader   buffer = new BufferedReader(fread);
+			    String           strPlug = "plug=1";
+			    String           str = null;
+			    while ((str = buffer.readLine()) != null){
+				    int length = str.length();
+				    //if((length == 6) && (str.equals(strPlug))){
+				    if(str.equals("1")){
+					    isConnected = true;
+					    break;
+				    }
+				    else{
+					    isConnected = false;
+				    }
+			    }
+			    } catch (IOException e){
+				    Log.e(TAG, "IO Exception");
+			    }
+		    }
+		    return isConnected;
+	    }
 
     private int getFBDualDisplayMode(){
 	    int mode = 0;
